@@ -16,10 +16,6 @@ void obj_test()
       ATTR1_SIZE_64, // 64x64p,
       ATTR2_PALBANK(pb) | tid);   // palbank 0, tile 0
 
-    // position sprite (redundant here; the _real_ position
-    // is set further down
-    obj_set_pos(dino, x, y);
-
     while(1)
     {
         vid_vsync();
