@@ -19,7 +19,7 @@ int main()
 
     obj_set_attr(dino,
       ATTR0_SQUARE, // Square, regular sprite
-      ATTR1_SIZE_64, // 64x64p,
+      ATTR1_SIZE_32, // 32x32p
       ATTR2_PALBANK(pb) | tid);   // palbank 0, tile 0
 
     obj_set_pos(dino, x, y);
@@ -27,12 +27,6 @@ int main()
       vid_vsync();
       key_poll();
       
-      // increment/decrement starting tile with R/L
-      if(key_hit(KEY_L))
-          tid -= 1;
-      else if (key_hit(KEY_R))
-          tid += 1;
-
       dino->attr2= ATTR2_BUILD(tid, pb, 0);
     }
     
