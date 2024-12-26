@@ -23,30 +23,6 @@ void obj_test()
     while(1)
     {
         vid_vsync();
-        key_poll();
-
-        // (5) Do various interesting things
-        // move left/right
-        x += 2*key_tri_horz();
-
-        // move up/down
-        y += 2*key_tri_vert();
-
-        // increment/decrement starting tile with R/L
-        tid += bit_tribool(key_hit(-1), KI_R, KI_L);
-
-        // flip
-        if(key_hit(KEY_A))  // horizontally
-            dino->attr1 ^= ATTR1_HFLIP;
-        if(key_hit(KEY_B))  // vertically
-            dino->attr1 ^= ATTR1_VFLIP;
-
-        // make it glow (via palette swapping)
-        pb= key_is_down(KEY_SELECT) ? 1 : 0;
-
-        // toggle mapping mode
-        if(key_hit(KEY_START))
-            REG_DISPCNT ^= DCNT_OBJ_1D;
 
         // Hey look, it's one of them build macros!
         dino->attr2= ATTR2_BUILD(tid, pb, 0);
