@@ -16,16 +16,13 @@ void obj_test()
       ATTR1_SIZE_64, // 64x64p,
       ATTR2_PALBANK(pb) | tid);   // palbank 0, tile 0
 
-    while(1)
-    {
-        vid_vsync();
+      vid_vsync();
 
-        // Hey look, it's one of them build macros!
-        dino->attr2= ATTR2_BUILD(tid, pb, 0);
-        obj_set_pos(dino, x, y);
+      // Hey look, it's one of them build macros!
+      dino->attr2= ATTR2_BUILD(tid, pb, 0);
+      obj_set_pos(dino, x, y);
 
-        oam_copy(oam_mem, obj_buffer, 1);   // (6) Update OAM (only one now)
-    }
+      oam_copy(oam_mem, obj_buffer, 1);   // (6) Update OAM (only one now)
 }
 
 int main()
