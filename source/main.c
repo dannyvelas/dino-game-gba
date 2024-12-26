@@ -4,7 +4,7 @@
 
 int main()
 {
-    OBJ_ATTR *dino = &(OBJ_ATTR){};
+    OBJ_ATTR *dino = &oam_mem[0];
     
     // Places the glyphs of a 4bpp boxed dino sprite
     memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
@@ -28,15 +28,12 @@ int main()
       key_poll();
       
       // increment/decrement starting tile with R/L
-      //tid += bit_tribool(key_hit(-1), KI_R, KI_L);
       if(key_hit(KEY_L))
           tid -= 1;
       else if (key_hit(KEY_R))
           tid += 1;
       
       dino->attr2= ATTR2_BUILD(tid, pb, 0);
-
-      oam_copy(oam_mem, dino, 1);   // (6) Update OAM (only one now)
     }
     
     return 0;
