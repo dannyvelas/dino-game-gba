@@ -32,7 +32,7 @@ int main()
           tid -= 1;
       else if (key_hit(KEY_R))
           tid += 1;
-      
+
       dino->attr2= ATTR2_BUILD(tid, pb, 0);
     }
     
