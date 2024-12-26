@@ -21,14 +21,9 @@ int main()
       ATTR0_SQUARE, // Square, regular sprite
       ATTR1_SIZE_32, // 32x32p
       ATTR2_PALBANK(pb) | tid);   // palbank 0, tile 0
-
     obj_set_pos(dino, x, y);
-    while(1) {
-      vid_vsync();
-      key_poll();
-      
-      dino->attr2= ATTR2_BUILD(tid, pb, 0);
-    }
+
+    while(1);
     
     return 0;
 }
