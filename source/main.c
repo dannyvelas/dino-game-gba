@@ -22,15 +22,19 @@ int main()
       ATTR1_SIZE_64, // 64x64p,
       ATTR2_PALBANK(pb) | tid);   // palbank 0, tile 0
 
+
+    obj_set_pos(dino, x, y);
     while(1) {
       vid_vsync();
       key_poll();
       
       // increment/decrement starting tile with R/L
-      tid += bit_tribool(key_hit(-1), KI_R, KI_L);
-
+      if(key_is_down(KEY_L))
+          tid -= 1;
+      else if (key_is_down(KEY_R))
+          tid += 1;
+      
       dino->attr2= ATTR2_BUILD(tid, pb, 0);
-      obj_set_pos(dino, x, y);
 
       oam_copy(oam_mem, dino, 1);   // (6) Update OAM (only one now)
     }
