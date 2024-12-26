@@ -29,9 +29,9 @@ int main()
       
       // increment/decrement starting tile with R/L
       //tid += bit_tribool(key_hit(-1), KI_R, KI_L);
-      if(key_is_down(KEY_L))
+      if(key_hit(KEY_L))
           tid -= 1;
-      else if (key_is_down(KEY_R))
+      else if (key_hit(KEY_R))
           tid += 1;
       
       dino->attr2= ATTR2_BUILD(tid, pb, 0);
