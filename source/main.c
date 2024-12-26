@@ -23,7 +23,13 @@ int main()
       ATTR2_PALBANK(pb) | tid);   // palbank 0, tile 0
     obj_set_pos(dino, x, y);
 
-    while(1);
+    while(1) {
+        vid_vsync();
+        key_poll();
+ 
+        pb= key_is_down(KEY_SELECT) ? 1 : 0;
+        dino->attr2= ATTR2_BUILD(tid, pb, 0);
+    }
     
     return 0;
 }
