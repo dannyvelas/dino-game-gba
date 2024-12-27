@@ -19,12 +19,12 @@ int main() {
     REG_DISPCNT= DCNT_OBJ | DCNT_OBJ_1D;
 
     int x= 12, y= 96;
-    u32 tid= 0, pb= 0;        // tile id, pal-bank
+    u32 tid= 0, pb= 0;
 
     obj_set_attr(dino,
-      ATTR0_SQUARE, // Square, regular sprite
-      ATTR1_SIZE_32, // 32x32p
-      ATTR2_PALBANK(pb) | tid);   // palbank 0, tile 0
+      ATTR0_SQUARE,
+      ATTR1_SIZE_32,
+      ATTR2_PALBANK(pb) | tid);
     obj_set_pos(dino, x, y);
 
     while(1) {
