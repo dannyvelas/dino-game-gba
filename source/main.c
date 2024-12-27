@@ -2,11 +2,10 @@
 #include <tonc.h>
 #include "dino.h"
 
-int main()
-{
+int main() {
     OBJ_ATTR *dino = &oam_mem[0];
     
-    // Places the glyphs of a 4bpp boxed dino sprite
+    // Place the glyphs of a 4bpp boxed dino sprite
     memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
     memcpy16(pal_obj_mem, dinoPal, dinoPalLen / sizeof(u16));
 
@@ -14,7 +13,7 @@ int main()
     oam_init(dino, 1);
     REG_DISPCNT= DCNT_OBJ | DCNT_OBJ_1D;
 
-    int x= 96, y= 32;
+    int x= 12, y= 96;
     u32 tid= 0, pb= 0;        // tile id, pal-bank
 
     obj_set_attr(dino,
