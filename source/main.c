@@ -1,11 +1,16 @@
 #include <string.h>
 #include <tonc.h>
 #include "dino.h"
+#include "sky.h"
 
 int main() {
     OBJ_ATTR *dino = &oam_mem[0];
+
+    // set the background
+    memcpy(pal_bg_mem, skyPal, skyPalLen);
+    memcpy(&tile_mem[0][0], skyTiles, skyTilesLen); 
     
-    // Place the glyphs of a 4bpp boxed dino sprite
+    // place dino sprite
     memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
     memcpy16(pal_obj_mem, dinoPal, dinoPalLen / sizeof(u16));
 
