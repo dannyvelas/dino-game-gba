@@ -27,9 +27,9 @@ int main() {
         key_poll();
  
         if (key_hit(KEY_L)) {
-          tid -= 32;
+          tid -= 16;
         } else if (key_hit(KEY_R)) {
-          tid += 32;
+          tid += 16;
         }
         
         character->attr2= ATTR2_BUILD(tid, pb, 0);
