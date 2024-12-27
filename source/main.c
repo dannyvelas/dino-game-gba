@@ -7,8 +7,8 @@ int main() {
     OBJ_ATTR *dino = &oam_mem[0];
 
     // set the background
-    memcpy(pal_bg_mem, skyPal, skyPalLen);
-    memcpy(&tile_mem[0][0], skyTiles, skyTilesLen); 
+    memcpy32(pal_bg_mem, skyPal, skyPalLen / sizeof(u32));
+    memcpy16(&tile_mem[0][0], skyTiles, skyTilesLen / sizeof(u16)); 
     
     // place dino sprite
     memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
