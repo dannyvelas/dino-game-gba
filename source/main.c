@@ -1,4 +1,3 @@
-#include <string.h>
 #include <tonc.h>
 #include "dino.h"
 #include "sky.h"
@@ -11,6 +10,8 @@
 #define TILE_HEIGHT 8
 #define AMT_ROWS (SCREEN_HEIGHT / TILE_HEIGHT)
 #define TILE_N 32
+
+enum jump_state { STATIC, UP, DOWN };
 
 int main() {
     // set I/O register to use mode0, sprites, 1d sprites and tiled background 0
@@ -42,19 +43,35 @@ int main() {
 
     // initialize dino attributes
     // lets make our dinosaur be 3 tiles to the right and 4 tiles above the floor
-    int x = TILE_HEIGHT*2;
-    int y = (floor_tile_y-4)*TILE_HEIGHT; 
+    int start_x = TILE_HEIGHT*2;
+    int start_y = (floor_tile_y-4)*TILE_HEIGHT; 
     u32 tile_index= 0, palette_bank= 0;
     obj_set_attr(dino, ATTR0_SQUARE, ATTR1_SIZE_32, ATTR2_PALBANK(palette_bank) | tile_index);
 
     // set initial position of dino
-    obj_set_pos(dino, x, y);
+    obj_set_pos(dino, start_x, start_y);
 
+    // state variables
+    int x = start_x;
+    int y = start_y;
+    enum jump_state jump_state = STATIC;
     while(1) {
         vid_vsync();
         key_poll();
  
-        palette_bank= key_is_down(KEY_SELECT) ? 1 : 0;
+        if(key_hit(KEY_A) || (jump_state == UP && y < start_y-(TILE_HEIGHT*4))) {
+            // start jumping
+            y -= TILE_HEIGHT;
+            jump_state = UP;
+        } else if(y == start_y-(TILE_HEIGHT*4) || jump_state == DOWN) {
+            // we've jumped too far
+            y += TILE_HEIGHT;
+            jump_state = DOWN;
+        } else if (jump_state == DOWN && y == start_y) {
+            // we've stopped going down
+            jump_state = STATIC;
+        }
+        obj_set_pos(dino, x, y);
         dino->attr2= ATTR2_BUILD(tile_index, palette_bank, 0);
     }
     
