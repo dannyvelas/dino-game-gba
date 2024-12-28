@@ -24,7 +24,11 @@ int main() {
     memcpy16(&tile_mem[CBB_index][0], skyTiles, skyTilesLen / sizeof(u16)); 
 
     // load background tile maps
-    SCR_ENTRY *bg0_tilemap= se_mem[SBB_0]; 
+    for(int i = 0; i < 32*32; i++) {
+        if ((i / 32) == 16) {
+            se_mem[SBB_index][i] = 1;
+        }
+    }
     
     // place dino sprite
     memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
