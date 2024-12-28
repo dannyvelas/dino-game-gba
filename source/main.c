@@ -10,8 +10,6 @@
 
 #define AMT_ROWS (SCREEN_HEIGHT / 8)
 
-// lets define where our floor should be
-
 int main() {
     // set I/O register to use mode0, sprites, 1d sprites and tiled background 0
     REG_DISPCNT= DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0;
