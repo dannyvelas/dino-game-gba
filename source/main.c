@@ -8,7 +8,8 @@
 #define SBB_INDEX 31
 #define CBB_INDEX 0
 
-#define AMT_ROWS (SCREEN_HEIGHT / 8)
+#define TILE_HEIGHT 8
+#define AMT_ROWS (SCREEN_HEIGHT / TILE_HEIGHT)
 
 int main() {
     // set I/O register to use mode0, sprites, 1d sprites and tiled background 0
@@ -39,8 +40,8 @@ int main() {
     oam_init(dino, 1);
 
     // initialize dino attributes; also lets make our dinosaur be 4 tiles above the floor
-    int x= 12;
-    int y = (floor_tile_y-4)*8; 
+    int x = 12;
+    int y = (floor_tile_y-4)*TILE_HEIGHT; 
     u32 tile_index= 0, palette_bank= 0;
     obj_set_attr(dino, ATTR0_SQUARE, ATTR1_SIZE_32, ATTR2_PALBANK(palette_bank) | tile_index);
 
