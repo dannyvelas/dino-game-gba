@@ -10,6 +10,7 @@
 
 #define TILE_HEIGHT 8
 #define AMT_ROWS (SCREEN_HEIGHT / TILE_HEIGHT)
+#define TILE_N 32
 
 int main() {
     // set I/O register to use mode0, sprites, 1d sprites and tiled background 0
@@ -29,7 +30,7 @@ int main() {
     // load background tile maps
     int floor_tile_y = (AMT_ROWS-4); // lets make the floor 3 tiles up from bottom
     int floor_tile_index = 1;
-    toncset16(&se_mem[SBB_INDEX][floor_tile_y*32], floor_tile_index, 32);
+    toncset16(&se_mem[SBB_INDEX][floor_tile_y*TILE_N], floor_tile_index, TILE_N);
     
     // place dino sprite into very first sprite charblock (4)
     memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
