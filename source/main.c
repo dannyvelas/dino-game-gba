@@ -26,9 +26,9 @@ int main() {
     memcpy16(&tile_mem[CBB_INDEX][0], skyTiles, skyTilesLen / sizeof(u16)); 
 
     // load background tile maps
-    int floor_y = (AMT_ROWS-4)*32; // lets make the floor 3 tiles up from bottom
+    int floor_tile_y = (AMT_ROWS-4); // lets make the floor 3 tiles up from bottom
     int floor_tile_index = 1;
-    toncset16(&se_mem[SBB_INDEX][floor_y], floor_tile_index, 32);
+    toncset16(&se_mem[SBB_INDEX][floor_tile_y*32], floor_tile_index, 32);
     
     // place dino sprite into very first sprite charblock (4)
     memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
@@ -38,8 +38,9 @@ int main() {
     OBJ_ATTR *dino = &oam_mem[0];
     oam_init(dino, 1);
 
-    // initialize dino attributes
-    int x= 12, y= 96;
+    // initialize dino attributes; also lets make our dinosaur be 4 tiles above the floor
+    int x= 12;
+    int y = (floor_tile_y-4)*8; 
     u32 tile_index= 0, palette_bank= 0;
     obj_set_attr(dino, ATTR0_SQUARE, ATTR1_SIZE_32, ATTR2_PALBANK(palette_bank) | tile_index);
 
