@@ -34,21 +34,20 @@ int main() {
     OBJ_ATTR *dino = &oam_mem[0];
     oam_init(dino, 1);
 
+    // initialize dino attributes
     int x= 12, y= 96;
-    u32 tid= 0, pb= 0;
+    u32 tile_index= 0, palette_bank= 0;
+    obj_set_attr(dino, ATTR0_SQUARE, ATTR1_SIZE_32, ATTR2_PALBANK(palette_bank) | tile_index);
 
-    obj_set_attr(dino,
-      ATTR0_SQUARE,
-      ATTR1_SIZE_32,
-      ATTR2_PALBANK(pb) | tid);
+    // set initial position of dino
     obj_set_pos(dino, x, y);
 
     while(1) {
         vid_vsync();
         key_poll();
  
-        pb= key_is_down(KEY_SELECT) ? 1 : 0;
-        dino->attr2= ATTR2_BUILD(tid, pb, 0);
+        palette_bank= key_is_down(KEY_SELECT) ? 1 : 0;
+        dino->attr2= ATTR2_BUILD(tile_index, palette_bank, 0);
     }
     
     return 0;
