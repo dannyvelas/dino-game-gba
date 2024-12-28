@@ -5,8 +5,12 @@
 
 // convention is to make the screen base block as far right in VRAM as you can
 // we are using a 32x32t map so we can use the very last screen block
-#define SBB_index 31
-#define CBB_index 0
+#define SBB_INDEX 31
+#define CBB_INDEX 0
+
+#define AMT_ROWS (SCREEN_HEIGHT / 8)
+
+// lets define where our floor should be
 
 int main() {
     // set I/O register to use mode0, sprites, 1d sprites and tiled background 0
@@ -14,23 +18,21 @@ int main() {
 
     // set the background using charblock 0 as the character base block
     // and SBB. 4bpp background tiles and 32x32 tiles
-    REG_BG0CNT= BG_CBB(CBB_index) | BG_SBB(SBB_index) | BG_4BPP | BG_REG_32x32;
+    REG_BG0CNT= BG_CBB(CBB_INDEX) | BG_SBB(SBB_INDEX) | BG_4BPP | BG_REG_32x32;
     // set scrolling registers to 0
     REG_BG0HOFS= 0;
     REG_BG0VOFS= 0;
 
     // load background data into memory
     memcpy32(pal_bg_mem, skyPal, skyPalLen / sizeof(u32));
-    memcpy16(&tile_mem[CBB_index][0], skyTiles, skyTilesLen / sizeof(u16)); 
+    memcpy16(&tile_mem[CBB_INDEX][0], skyTiles, skyTilesLen / sizeof(u16)); 
 
     // load background tile maps
-    for(int i = 0; i < 32*32; i++) {
-        if ((i / 32) == 16) {
-            se_mem[SBB_index][i] = 1;
-        }
-    }
+    int floor_y = (AMT_ROWS-4)*32; // lets make the floor 3 tiles up from bottom
+    int floor_tile_index = 1;
+    toncset16(&se_mem[SBB_INDEX][floor_y], floor_tile_index, 32);
     
-    // place dino sprite
+    // place dino sprite into very first sprite charblock (4)
     memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
     memcpy16(pal_obj_mem, dinoPal, dinoPalLen / sizeof(u16));
 
