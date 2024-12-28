@@ -40,8 +40,9 @@ int main() {
     OBJ_ATTR *dino = &oam_mem[0];
     oam_init(dino, 1);
 
-    // initialize dino attributes; also lets make our dinosaur be 4 tiles above the floor
-    int x = 12;
+    // initialize dino attributes
+    // lets make our dinosaur be 3 tiles to the right and 4 tiles above the floor
+    int x = TILE_HEIGHT*2;
     int y = (floor_tile_y-4)*TILE_HEIGHT; 
     u32 tile_index= 0, palette_bank= 0;
     obj_set_attr(dino, ATTR0_SQUARE, ATTR1_SIZE_32, ATTR2_PALBANK(palette_bank) | tile_index);
