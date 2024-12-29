@@ -51,17 +51,24 @@ int main() {
     // set initial position of dino
     obj_set_pos(dino, x, y);
 
+    int direction = 1; // up and down
+    int i = 0;
     while(1) {
-        for(int i = 0; i < 4; i++) {
-            vid_vsync();
+        vid_vsync();
+        if (i < 4 && direction == 1) {
             y -= TILE_HEIGHT;
             obj_set_pos(dino, x, y);
-        }
-
-        for (int i = 0; i < 4; i++) {
-            vid_vsync();
+            i += 1;
+        } else if (i == 4 && direction == 1) {
+            direction = 0;
+            i = 0;
+        } else if (direction == 0 && i < 4) {
             y += TILE_HEIGHT;
             obj_set_pos(dino, x, y);
+            i += 1;
+        } else if (direction == 0 && i == 4) {
+            direction = 1;
+            i = 0;
         }
     }
     
