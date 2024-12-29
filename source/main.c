@@ -53,15 +53,26 @@ int main() {
 
     int direction = -1; // up and down
     int i = 0;
+    _Bool activated_jump = 0;
     while(1) {
         vid_vsync();
-        if (i < 4) {
-            y += (TILE_HEIGHT*direction);
-            obj_set_pos(dino, x, y);
-            i += 1;
-        } else {
-            direction *= -1;
-            i = 0;
+        key_poll();
+        if(activated_jump) {
+          if (i < 4) {
+              y += (TILE_HEIGHT*direction);
+              obj_set_pos(dino, x, y);
+              i += 1;
+          } else {
+              direction *= -1;
+              i = 0;
+              if(direction == -1) {
+                  activated_jump = 0;
+              }
+          }
+        }
+
+        if (key_hit(KEY_A)) {
+            activated_jump = 1;
         }
     }
     
