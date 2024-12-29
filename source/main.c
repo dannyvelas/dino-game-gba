@@ -11,8 +11,6 @@
 #define AMT_ROWS (SCREEN_HEIGHT / TILE_HEIGHT)
 #define TILE_N 32
 
-enum jump_state { STATIC, UP, DOWN };
-
 int main() {
   // set I/O register to use mode0, sprites, 1d sprites and tiled background 0
   REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0;
