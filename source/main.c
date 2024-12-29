@@ -42,37 +42,27 @@ int main() {
     oam_init(dino, 1);
 
     // initialize dino attributes
-    // lets make our dinosaur be 3 tiles to the right and 4 tiles above the floor
-    int start_x = TILE_HEIGHT*2;
-    int start_y = (floor_tile_y-4)*TILE_HEIGHT; 
+    // lets make our dinosaur be 2 tiles to the right and 4 tiles above the floor
+    int x = TILE_HEIGHT*2;
+    int y = (floor_tile_y-4)*TILE_HEIGHT; 
     u32 tile_index= 0, palette_bank= 0;
     obj_set_attr(dino, ATTR0_SQUARE, ATTR1_SIZE_32, ATTR2_PALBANK(palette_bank) | tile_index);
 
     // set initial position of dino
-    obj_set_pos(dino, start_x, start_y);
+    obj_set_pos(dino, x, y);
 
-    // state variables
-    int x = start_x;
-    int y = start_y;
-    enum jump_state jump_state = STATIC;
     while(1) {
-        vid_vsync();
-        key_poll();
- 
-        if(key_hit(KEY_A) && y > start_y-(TILE_HEIGHT*4)) {
-            // start jumping or continue to jump
+        for(int i = 0; i < 4; i++) {
+            vid_vsync();
             y -= TILE_HEIGHT;
-            jump_state = UP;
-        } else if(y == start_y-(TILE_HEIGHT*4)) {
-            // we've jumped too far
-            y += TILE_HEIGHT;
-            jump_state = DOWN;
-        } else if (y == start_y) {
-            // we need to stop going down
-            jump_state = STATIC;
+            obj_set_pos(dino, x, y);
         }
-        obj_set_pos(dino, x, y);
-        dino->attr2= ATTR2_BUILD(tile_index, palette_bank, 0);
+
+        for (int i = 0; i < 4; i++) {
+            vid_vsync();
+            y += TILE_HEIGHT;
+            obj_set_pos(dino, x, y);
+        }
     }
     
     return 0;
