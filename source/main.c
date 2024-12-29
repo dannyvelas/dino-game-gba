@@ -59,16 +59,16 @@ int main() {
         vid_vsync();
         key_poll();
  
-        if(key_hit(KEY_A) || (jump_state == UP && y < start_y-(TILE_HEIGHT*4))) {
-            // start jumping
+        if(key_hit(KEY_A) && y > start_y-(TILE_HEIGHT*4)) {
+            // start jumping or continue to jump
             y -= TILE_HEIGHT;
             jump_state = UP;
-        } else if(y == start_y-(TILE_HEIGHT*4) || jump_state == DOWN) {
+        } else if(y == start_y-(TILE_HEIGHT*4)) {
             // we've jumped too far
             y += TILE_HEIGHT;
             jump_state = DOWN;
-        } else if (jump_state == DOWN && y == start_y) {
-            // we've stopped going down
+        } else if (y == start_y) {
+            // we need to stop going down
             jump_state = STATIC;
         }
         obj_set_pos(dino, x, y);
