@@ -90,7 +90,7 @@ int main() {
       obj_set_pos(dino, x, y);
       oam_copy(oam_mem, dino, 1);
     } else if ((direction == 1) && (0 == offset)) {
-      break;
+      direction = -1;
     }
   }
 
