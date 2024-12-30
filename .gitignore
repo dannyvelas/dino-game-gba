@@ -3,3 +3,6 @@ build
 *.elf
 *.gba
 *.sav
+
+temp
+.cache
