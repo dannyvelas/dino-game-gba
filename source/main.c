@@ -77,15 +77,13 @@ int main() {
       // if we're in the middle of a jump, continue it
       if (direction == -1) {
         y -= TILE_HEIGHT;
-        obj_set_pos(dino, x, y);
-        oam_copy(oam_mem, dino, 1);
         offset -= 1;
       } else {
         y += TILE_HEIGHT;
-        obj_set_pos(dino, x, y);
-        oam_copy(oam_mem, dino, 1);
         offset += 1;
       }
+      obj_set_pos(dino, x, y);
+      oam_copy(oam_mem, dino, 1);
     } else if (offset == -5 && direction == -1) {
       direction = 1;
       offset = -4;
