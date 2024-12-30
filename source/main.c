@@ -11,14 +11,14 @@
 #define AMT_ROWS (SCREEN_HEIGHT / TILE_HEIGHT)
 #define TILE_N 32
 
-void jump(OBJ_ATTR *dino, int *x, int *y, int *offset, int *direction) {
-  if (*offset == 4) {
-    *direction *= -1;
-  }
-  *offset += 1 * *direction;
-  *y += TILE_HEIGHT * (*offset);
-  obj_set_pos(dino, *x, *y);
-}
+// void jump(OBJ_ATTR *dino, int *x, int *y, int *offset, int *direction) {
+//   if (*offset == 4) {
+//     *direction *= -1;
+//   }
+//   *offset += 1 * *direction;
+//   *y += TILE_HEIGHT * (*offset);
+//   obj_set_pos(dino, *x, *y);
+// }
 
 int main() {
   // set I/O register to use mode0, sprites, 1d sprites and tiled background 0
@@ -47,7 +47,7 @@ int main() {
   memcpy16(pal_obj_mem, dinoPal, dinoPalLen / sizeof(u16));
 
   // init OAM for this dino
-  OBJ_ATTR *dino = &oam_mem[0];
+  OBJ_ATTR *dino = &(OBJ_ATTR){};
   oam_init(dino, 1);
 
   // initialize dino attributes
@@ -61,21 +61,11 @@ int main() {
   // set initial position of dino
   obj_set_pos(dino, x, y);
 
-  int offset = 0;
-  int direction = -1;
   while (1) {
     vid_vsync();
-    key_poll();
-    // if we're static and A is hit, start a jump
-    if (offset == 0 && key_hit(KEY_A)) {
-      jump(dino, &x, &y, &offset, &direction);
-      continue;
-    }
-
-    // if we're in the middle of a jump, continue it
-    if (offset != 0) {
-      jump(dino, &x, &y, &offset, &direction);
-    }
+    x += 1;
+    obj_set_pos(dino, x, y);
+    oam_copy(oam_mem, dino, 1);
   }
 
   return 0;
