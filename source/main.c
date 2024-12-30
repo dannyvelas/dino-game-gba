@@ -11,6 +11,15 @@
 #define AMT_ROWS (SCREEN_HEIGHT / TILE_HEIGHT)
 #define TILE_N 32
 
+void jump(OBJ_ATTR *dino, int *x, int *y, int *offset, int *direction) {
+  if (*offset == 4) {
+    *direction *= -1;
+  }
+  *offset += 1 * *direction;
+  *y += TILE_HEIGHT * (*offset);
+  obj_set_pos(dino, *x, *y);
+}
+
 int main() {
   // set I/O register to use mode0, sprites, 1d sprites and tiled background 0
   REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0;
@@ -52,29 +61,21 @@ int main() {
   // set initial position of dino
   obj_set_pos(dino, x, y);
 
-  int direction = 1; // up and down
-  _Bool jumping = 0;
-  int i = 0;
+  int offset = 0;
+  int direction = -1;
   while (1) {
     vid_vsync();
     key_poll();
-    if (key_hit(KEY_A)) {
-      jumping = 1;
+    // if we're static and A is hit, start a jump
+    if (offset == 0 && key_hit(KEY_A)) {
+      jump(dino, &x, &y, &offset, &direction);
       continue;
     }
 
-    if (!jumping) {
-      continue;
+    // if we're in the middle of a jump, continue it
+    if (offset != 0) {
+      jump(dino, &x, &y, &offset, &direction);
     }
-    // we are jumping
-    i %= 4;
-    if (i == 0) {
-      direction *= -1;
-    }
-    // if in the middle of going up or down, continue moving
-    y += (TILE_HEIGHT * direction);
-    obj_set_pos(dino, x, y);
-    i += 1;
   }
 
   return 0;
