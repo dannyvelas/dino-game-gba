@@ -80,11 +80,9 @@ int main() {
       oam_copy(oam_mem, dino, 1);
       offset -= 1;
     } else if (offset == -5 && direction == -1) {
-      y -= TILE_HEIGHT;
-      obj_set_pos(dino, x, y);
-      oam_copy(oam_mem, dino, 1);
       direction = 1;
-    } else if ((direction == 1) && (-5 <= offset && offset <= -1)) {
+      offset = -4;
+    } else if ((direction == 1) && (-4 <= offset && offset <= -1)) {
       y += TILE_HEIGHT;
       obj_set_pos(dino, x, y);
       oam_copy(oam_mem, dino, 1);
