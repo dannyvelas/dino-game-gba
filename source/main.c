@@ -58,8 +58,32 @@ int main() {
   obj_set_attr(dino, ATTR0_SQUARE, ATTR1_SIZE_32,
                ATTR2_PALBANK(palette_bank) | tile_index);
 
-  // set initial position of dino
+  // set initial position of this dino
   obj_set_pos(dino, x, y);
+  oam_copy(oam_mem, dino, 1);
+
+  int offset = 0;
+  int direction = -1;
+  while (1) {
+    vid_vsync();
+    key_poll();
+    // if we're static and A is hit, start a jump
+    if (offset == 0 && key_hit(KEY_A)) {
+      offset += 1 * direction;
+      y += TILE_HEIGHT * (offset);
+      obj_set_pos(dino, x, y);
+      oam_copy(oam_mem, dino, 1);
+      break;
+    }
+    // if we're in the middle of a jump, continue it
+    // if (offset != 0) {
+    //  // offset += 8 * direction;
+    //  y += TILE_HEIGHT * -32;
+    //  obj_set_pos(dino, x, y);
+    //  oam_copy(oam_mem, dino, 1);
+    //  break;
+    //}
+  }
 
   while (1) {
     vid_vsync();
