@@ -73,16 +73,25 @@ int main() {
       y += TILE_HEIGHT * (offset);
       obj_set_pos(dino, x, y);
       oam_copy(oam_mem, dino, 1);
+      continue;
+    }
+
+    // if we're in the middle of a jump, continue it
+    if ((-4 < offset && offset <= -1) && direction == -1) {
+      offset -= 1;
+      y -= TILE_HEIGHT;
+      obj_set_pos(dino, x, y);
+      oam_copy(oam_mem, dino, 1);
+    } else if (offset == -4 && direction == -1) {
+      direction = 1;
+    } else if ((direction == 1) && (-4 <= offset && offset <= -1)) {
+      offset += 1;
+      y += TILE_HEIGHT;
+      obj_set_pos(dino, x, y);
+      oam_copy(oam_mem, dino, 1);
+    } else if ((direction == 1) && (0 == offset)) {
       break;
     }
-    // if we're in the middle of a jump, continue it
-    // if (offset != 0) {
-    //  // offset += 8 * direction;
-    //  y += TILE_HEIGHT * -32;
-    //  obj_set_pos(dino, x, y);
-    //  oam_copy(oam_mem, dino, 1);
-    //  break;
-    //}
   }
 
   while (1) {
