@@ -52,31 +52,19 @@ int main() {
   // set initial position of dino
   obj_set_pos(dino, x, y);
 
-  int direction = -1; // up and down
+  int direction = 1; // up and down
   int i = 0;
-  _Bool jumping = 0;
   while (1) {
     vid_vsync();
     key_poll();
-    if (jumping && i < 4) {
-      // if in the middle of going up or down, continue moving
-      y += (TILE_HEIGHT * direction);
-      obj_set_pos(dino, x, y);
-      i += 1;
-      continue;
-    }
-
-    if (i == 4) {
-      // if you reached an arc, change direction
+    i %= 4;
+    if (i == 0) {
       direction *= -1;
-      i = 0;
-      if (direction == -1) {
-        jumping = 0;
-      }
     }
-    if (key_hit(KEY_A)) {
-      jumping = 1;
-    }
+    // if in the middle of going up or down, continue moving
+    y += (TILE_HEIGHT * direction);
+    obj_set_pos(dino, x, y);
+    i += 1;
   }
 
   return 0;
