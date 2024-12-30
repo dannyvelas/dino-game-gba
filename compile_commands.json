@@ -1,6 +1,6 @@
 [
   {
-    "directory": ".",
+    "directory": "/Users/dannyvelasquez/RemoteGit/MyGithub/Gameboy/dino-game-tonc",
     "command": "/opt/devkitpro/devkitARM/bin/arm-none-eabi-gcc -MMD -MP -MF ./build/main.d -g -Wall -O2 -mcpu=arm7tdmi -mtune=arm7tdmi -mthumb -mthumb-interwork -iquote ./include -I/opt/devkitpro/libgba/include -I/opt/devkitpro/libtonc/include -I./build -c ./source/main.c -o main.o",
     "file": "source/main.c"
   }
