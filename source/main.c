@@ -69,8 +69,8 @@ int main() {
     key_poll();
     // if we're static and A is hit, start a jump
     if (offset == 0 && key_hit(KEY_A)) {
-      offset += 1 * direction;
-      y += TILE_HEIGHT * (offset);
+      offset -= 1;
+      y -= TILE_HEIGHT;
       obj_set_pos(dino, x, y);
       oam_copy(oam_mem, dino, 1);
       continue;
