@@ -53,10 +53,20 @@ int main() {
   obj_set_pos(dino, x, y);
 
   int direction = 1; // up and down
+  _Bool jumping = 0;
   int i = 0;
   while (1) {
     vid_vsync();
     key_poll();
+    if (key_hit(KEY_A)) {
+      jumping = 1;
+      continue;
+    }
+
+    if (!jumping) {
+      continue;
+    }
+    // we are jumping
     i %= 4;
     if (i == 0) {
       direction *= -1;
