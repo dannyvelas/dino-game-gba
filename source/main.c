@@ -70,25 +70,25 @@ int main() {
     // if we're static and A is hit, start a jump
     if (offset == 0 && key_hit(KEY_A)) {
       offset -= 1;
-      y -= TILE_HEIGHT;
-      obj_set_pos(dino, x, y);
-      oam_copy(oam_mem, dino, 1);
       continue;
     }
 
     // if we're in the middle of a jump, continue it
-    if ((-4 < offset && offset <= -1) && direction == -1) {
-      offset -= 1;
+    if ((-4 <= offset && offset <= -1) && direction == -1) {
       y -= TILE_HEIGHT;
       obj_set_pos(dino, x, y);
       oam_copy(oam_mem, dino, 1);
-    } else if (offset == -4 && direction == -1) {
+      offset -= 1;
+    } else if (offset == -5 && direction == -1) {
+      y -= TILE_HEIGHT;
+      obj_set_pos(dino, x, y);
+      oam_copy(oam_mem, dino, 1);
       direction = 1;
-    } else if ((direction == 1) && (-4 <= offset && offset <= -1)) {
-      offset += 1;
+    } else if ((direction == 1) && (-5 <= offset && offset <= -1)) {
       y += TILE_HEIGHT;
       obj_set_pos(dino, x, y);
       oam_copy(oam_mem, dino, 1);
+      offset += 1;
     } else if ((direction == 1) && (0 == offset)) {
       direction = -1;
     }
