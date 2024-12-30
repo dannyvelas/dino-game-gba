@@ -58,20 +58,22 @@ int main() {
   while (1) {
     vid_vsync();
     key_poll();
-    if (jumping) {
-      if (i < 4) {
-        y += (TILE_HEIGHT * direction);
-        obj_set_pos(dino, x, y);
-        i += 1;
-      } else {
-        direction *= -1;
-        i = 0;
-        if (direction == -1) {
-          jumping = 0;
-        }
-      }
+    if (jumping && i < 4) {
+      // if in the middle of going up or down, continue moving
+      y += (TILE_HEIGHT * direction);
+      obj_set_pos(dino, x, y);
+      i += 1;
+      continue;
     }
 
+    if (i == 4) {
+      // if you reached an arc, change direction
+      direction *= -1;
+      i = 0;
+      if (direction == -1) {
+        jumping = 0;
+      }
+    }
     if (key_hit(KEY_A)) {
       jumping = 1;
     }
