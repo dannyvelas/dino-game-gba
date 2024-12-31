@@ -37,21 +37,21 @@ int main() {
   memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
   memcpy16(pal_obj_mem, dinoPal, dinoPalLen / sizeof(u16));
 
-  // init OAM for this dino
-  OBJ_ATTR *dino = &(OBJ_ATTR){};
-  oam_init(dino, 1);
+  // init buffer for this dino. we will copy this to OAM on VBLANK
+  OBJ_ATTR dino = {};
+  oam_init(&dino, 1);
 
   // initialize dino attributes
   // lets make our dinosaur be 2 tiles to the right and 4 tiles above the floor
   int x = TILE_HEIGHT * 2;
   int y = (floor_tile_y - 4) * TILE_HEIGHT;
   u32 tile_index = 0, palette_bank = 0;
-  obj_set_attr(dino, ATTR0_SQUARE, ATTR1_SIZE_32,
+  obj_set_attr(&dino, ATTR0_SQUARE, ATTR1_SIZE_32,
                ATTR2_PALBANK(palette_bank) | tile_index);
 
   // set initial position of this dino
-  obj_set_pos(dino, x, y);
-  oam_copy(oam_mem, dino, 1);
+  obj_set_pos(&dino, x, y);
+  oam_copy(oam_mem, &dino, 1);
 
   int offset = 0;
   int direction = -1;
@@ -69,8 +69,8 @@ int main() {
       // continue moving in that direction
       y += TILE_HEIGHT * direction;
       offset += 1 * direction;
-      obj_set_pos(dino, x, y);
-      oam_copy(oam_mem, dino, 1);
+      obj_set_pos(&dino, x, y);
+      oam_copy(oam_mem, &dino, 1);
     } else if (offset == -5 && direction == -1) {
       // if we reached the arc of our jump, start going down
       direction = 1;
@@ -84,8 +84,8 @@ int main() {
   while (1) {
     vid_vsync();
     x += 1;
-    obj_set_pos(dino, x, y);
-    oam_copy(oam_mem, dino, 1);
+    obj_set_pos(&dino, x, y);
+    oam_copy(oam_mem, &dino, 1);
   }
 
   return 0;
