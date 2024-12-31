@@ -71,12 +71,13 @@ int main() {
       offset += 1 * direction;
       obj_set_pos(&dino, x, y);
       oam_copy(oam_mem, &dino, 1);
-    } else if (offset == -5 && direction == -1) {
+    } else if (offset == -5) {
       // if we reached the arc of our jump, start going down
       direction = 1;
       offset = -4;
-    } else if ((direction == 1) && (0 == offset)) {
-      // if we reached the floor after a jump, flip the direction to go up again
+    } else if (offset == 0 && direction == 1) {
+      // if we reached the floor after a jump, flip the direction
+      // so that when we jump we go up again
       direction = -1;
     }
   }
