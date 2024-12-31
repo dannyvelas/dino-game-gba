@@ -11,15 +11,6 @@
 #define AMT_ROWS (SCREEN_HEIGHT / TILE_HEIGHT)
 #define TILE_N 32
 
-// void jump(OBJ_ATTR *dino, int *x, int *y, int *offset, int *direction) {
-//   if (*offset == 4) {
-//     *direction *= -1;
-//   }
-//   *offset += 1 * *direction;
-//   *y += TILE_HEIGHT * (*offset);
-//   obj_set_pos(dino, *x, *y);
-// }
-
 int main() {
   // set I/O register to use mode0, sprites, 1d sprites and tiled background 0
   REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0;
@@ -74,15 +65,18 @@ int main() {
     }
 
     if (-4 <= offset && offset <= -1) {
-      // if we're in the middle of a jump, continue it
+      // if we're in the middle of going up or going down in a jump
+      // continue moving in that direction
       y += TILE_HEIGHT * direction;
       offset += 1 * direction;
       obj_set_pos(dino, x, y);
       oam_copy(oam_mem, dino, 1);
     } else if (offset == -5 && direction == -1) {
+      // if we reached the arc of our jump, start going down
       direction = 1;
       offset = -4;
     } else if ((direction == 1) && (0 == offset)) {
+      // if we reached the floor after a jump, flip the direction to go up again
       direction = -1;
     }
   }
