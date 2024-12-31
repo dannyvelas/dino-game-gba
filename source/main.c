@@ -11,6 +11,14 @@
 #define AMT_ROWS (SCREEN_HEIGHT / TILE_HEIGHT)
 #define TILE_N 32
 
+struct state {
+  int x;
+  int y;
+  int offset;
+  int direction;
+  u8 jump_initiated;
+};
+
 int main() {
   // set I/O register to use mode0, sprites, 1d sprites and tiled background 0
   REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0;
@@ -40,55 +48,57 @@ int main() {
   // init buffer for this dino. we will copy this to OAM on VBLANK
   OBJ_ATTR dino = {};
   oam_init(&dino, 1);
-
-  // initialize dino attributes
-  // lets make our dinosaur be 2 tiles to the right and 4 tiles above the floor
-  int x = TILE_HEIGHT * 2;
-  int y = (floor_tile_y - 4) * TILE_HEIGHT;
   u32 tile_index = 0, palette_bank = 0;
   obj_set_attr(&dino, ATTR0_SQUARE, ATTR1_SIZE_32,
                ATTR2_PALBANK(palette_bank) | tile_index);
 
   // set initial position of this dino
-  obj_set_pos(&dino, x, y);
-  oam_copy(oam_mem, &dino, 1);
+  // lets make our dinosaur be 2 tiles to the right and 4 tiles above the floor
+  struct state dino_state = {
+      .x = TILE_HEIGHT * 2,
+      .y = (floor_tile_y - 4) * TILE_HEIGHT,
+      .offset = 0,
+      .direction = -1,
+      .jump_initiated = 0,
+  };
 
-  int offset = 0;
-  int direction = -1;
-  int jump_initiated = 0;
+  // copy initial dino state to OAM
+  obj_set_pos(&dino, dino_state.x, dino_state.y);
+  oam_copy(oam_mem, &dino, 1);
   while (1) {
     vid_vsync();
     key_poll();
     // if we're static and A is hit, start a jump
-    if (offset == 0 && key_hit(KEY_A)) {
-      jump_initiated = 1;
+    if (dino_state.offset == 0 && key_hit(KEY_A)) {
+      dino_state.jump_initiated = 1;
       continue;
     }
 
-    if (direction == -1 && offset == -5) {
+    if (dino_state.direction == -1 && dino_state.offset == -5) {
       // if we reached the arc of our jump, start going down
-      direction = 1;
-    } else if (offset == 0 && direction == 1) {
+      dino_state.direction = 1;
+    } else if (dino_state.offset == 0 && dino_state.direction == 1) {
       // if we reached the floor after a jump, flip the direction
       // so that when we jump we go up again
-      direction = -1;
-      jump_initiated = 0;
-    } else if ((direction == -1 && -4 <= offset && offset <= 0 &&
-                jump_initiated) ||
-               (direction == 1 && -5 <= offset && offset <= -1)) {
+      dino_state.direction = -1;
+      dino_state.jump_initiated = 0;
+    } else if ((dino_state.direction == -1 && -4 <= dino_state.offset &&
+                dino_state.offset <= 0 && dino_state.jump_initiated) ||
+               (dino_state.direction == 1 && -5 <= dino_state.offset &&
+                dino_state.offset <= -1)) {
       // if we're in the middle of going up or going down in a jump
       // continue moving in that direction
-      offset += 1 * direction;
-      y += TILE_HEIGHT * direction;
-      obj_set_pos(&dino, x, y);
+      dino_state.offset += 1 * dino_state.direction;
+      dino_state.y += TILE_HEIGHT * dino_state.direction;
+      obj_set_pos(&dino, dino_state.x, dino_state.y);
       oam_copy(oam_mem, &dino, 1);
     }
   }
 
   while (1) {
     vid_vsync();
-    x += 1;
-    obj_set_pos(&dino, x, y);
+    dino_state.x += 1;
+    obj_set_pos(&dino, dino_state.x, dino_state.y);
     oam_copy(oam_mem, &dino, 1);
   }
 
