@@ -61,20 +61,23 @@ int main() {
     // if we're static and A is hit, start a jump
     if (offset == 0 && key_hit(KEY_A)) {
       offset -= 1;
+      y += TILE_HEIGHT * direction;
+      obj_set_pos(&dino, x, y);
+      oam_copy(oam_mem, &dino, 1);
       continue;
     }
 
-    if (-4 <= offset && offset <= -1) {
+    if ((direction == -1 && -4 <= offset && offset < 0) ||
+        (direction == 1 && -5 <= offset && offset < 0)) {
       // if we're in the middle of going up or going down in a jump
       // continue moving in that direction
-      y += TILE_HEIGHT * direction;
       offset += 1 * direction;
+      y += TILE_HEIGHT * direction;
       obj_set_pos(&dino, x, y);
       oam_copy(oam_mem, &dino, 1);
-    } else if (offset == -5) {
+    } else if (direction == -1 && offset == -5) {
       // if we reached the arc of our jump, start going down
       direction = 1;
-      offset = -4;
     } else if (offset == 0 && direction == 1) {
       // if we reached the floor after a jump, flip the direction
       // so that when we jump we go up again
