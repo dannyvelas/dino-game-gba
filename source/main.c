@@ -55,15 +55,13 @@ int main() {
 
   int offset = 0;
   int direction = -1;
+  int jump_initiated = 0;
   while (1) {
     vid_vsync();
     key_poll();
     // if we're static and A is hit, start a jump
     if (offset == 0 && key_hit(KEY_A)) {
-      offset -= 1;
-      y += TILE_HEIGHT * direction;
-      obj_set_pos(&dino, x, y);
-      oam_copy(oam_mem, &dino, 1);
+      jump_initiated = 1;
       continue;
     }
 
@@ -74,8 +72,10 @@ int main() {
       // if we reached the floor after a jump, flip the direction
       // so that when we jump we go up again
       direction = -1;
-    } else if ((direction == -1 && -4 <= offset && offset < 0) ||
-               (direction == 1 && -5 <= offset && offset < 0)) {
+      jump_initiated = 0;
+    } else if ((direction == -1 && -4 <= offset && offset <= 0 &&
+                jump_initiated) ||
+               (direction == 1 && -5 <= offset && offset <= -1)) {
       // if we're in the middle of going up or going down in a jump
       // continue moving in that direction
       offset += 1 * direction;
