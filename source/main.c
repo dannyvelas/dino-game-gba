@@ -14,7 +14,6 @@
 struct state {
   int x;
   int y;
-  int offset;
   int direction;
   u8 jump_initiated;
 };
@@ -54,10 +53,11 @@ int main() {
 
   // set initial position of this dino
   // lets make our dinosaur be 2 tiles to the right and 4 tiles above the floor
+  int start_x = TILE_HEIGHT * 2;
+  int start_y = (floor_tile_y - 4) * TILE_HEIGHT;
   struct state dino_state = {
-      .x = TILE_HEIGHT * 2,
-      .y = (floor_tile_y - 4) * TILE_HEIGHT,
-      .offset = 0,
+      .x = start_x,
+      .y = start_y,
       .direction = -1,
       .jump_initiated = 0,
   };
@@ -68,16 +68,17 @@ int main() {
   while (1) {
     vid_vsync();
     key_poll();
-    // if we're static and A is hit, start a jump
-    if (dino_state.offset == 0 && key_hit(KEY_A)) {
+    // if our y coordinate is at start and A is hit, start a jump
+    if (dino_state.y == start_y && key_hit(KEY_A)) {
       dino_state.jump_initiated = 1;
       continue;
     }
 
-    if (dino_state.direction == -1 && dino_state.offset == -5) {
+    if (dino_state.direction == -1 &&
+        dino_state.y == (start_y * -5 * TILE_HEIGHT)) {
       // if we reached the arc of our jump, start going down
       dino_state.direction = 1;
-    } else if (dino_state.offset == 0 && dino_state.direction == 1) {
+    } else if (dino_state.y == start_y && dino_state.direction == 1) {
       // if we reached the floor after a jump, flip the direction
       // so that when we jump we go up again
       dino_state.direction = -1;
@@ -88,7 +89,6 @@ int main() {
                 dino_state.offset <= -1)) {
       // if we're in the middle of going up or going down in a jump
       // continue moving in that direction
-      dino_state.offset += 1 * dino_state.direction;
       dino_state.y += TILE_HEIGHT * dino_state.direction;
       obj_set_pos(&dino, dino_state.x, dino_state.y);
       oam_copy(oam_mem, &dino, 1);
