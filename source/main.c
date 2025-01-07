@@ -64,7 +64,7 @@ int main() {
   memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
   memcpy16(pal_obj_mem, dinoPal, dinoPalLen / sizeof(u16));
 
-  // set initial position of this dino
+  // set initial state of our dino
   // lets make our dinosaur be 2 tiles to the right and 4 tiles above the floor
   int start_x = TILE_HEIGHT * 2;
   int start_y = (floor_tile_y - 4) * TILE_HEIGHT;
@@ -75,7 +75,7 @@ int main() {
       .direction = -1,
       .jump_initiated = 0,
   };
-  // init buffer for this dino. we will copy this to OAM on VBLANK
+  // init default object values for our dino. we will copy this to OAM on VBLANK
   oam_init(dino_state.dino, 1);
   u32 tile_index = 0, palette_bank = 0;
   obj_set_attr(dino_state.dino, ATTR0_SQUARE, ATTR1_SIZE_32,
@@ -94,6 +94,7 @@ int main() {
       jump(&dino_state, start_y);
     }
 
+    // update OAM with new values that were calculated in this frame
     obj_set_pos(dino_state.dino, dino_state.x, dino_state.y);
     oam_copy(oam_mem, dino_state.dino, 1);
   }
