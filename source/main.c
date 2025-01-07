@@ -12,13 +12,14 @@
 #define TILE_N 32
 
 struct state {
+  OBJ_ATTR dino;
   int x;
   int y;
   int direction;
   u8 jump_initiated;
 };
 
-void jump(struct state *dino_state, OBJ_ATTR *dino, int start_y) {
+void jump(struct state *dino_state, int start_y) {
   int offset = dino_state->y - start_y;
   if (dino_state->direction == -1 && offset == -40) {
     // if we reached the arc of our jump, start going down
@@ -33,8 +34,8 @@ void jump(struct state *dino_state, OBJ_ATTR *dino, int start_y) {
     // if we're in the middle of going up or going down in a jump
     // continue moving in that direction
     dino_state->y += TILE_HEIGHT * dino_state->direction;
-    obj_set_pos(dino, dino_state->x, dino_state->y);
-    oam_copy(oam_mem, dino, 1);
+    obj_set_pos(&dino_state->dino, dino_state->x, dino_state->y);
+    oam_copy(oam_mem, &dino_state->dino, 1);
   }
 }
 
@@ -76,6 +77,7 @@ int main() {
   int start_x = TILE_HEIGHT * 2;
   int start_y = (floor_tile_y - 4) * TILE_HEIGHT;
   struct state dino_state = {
+      .dino = dino,
       .x = start_x,
       .y = start_y,
       .direction = -1,
@@ -83,8 +85,8 @@ int main() {
   };
 
   // copy initial dino state to OAM
-  obj_set_pos(&dino, dino_state.x, dino_state.y);
-  oam_copy(oam_mem, &dino, 1);
+  obj_set_pos(&dino_state.dino, dino_state.x, dino_state.y);
+  oam_copy(oam_mem, &dino_state.dino, 1);
   while (1) {
     vid_vsync();
     key_poll();
@@ -95,7 +97,7 @@ int main() {
     }
 
     if (dino_state.jump_initiated) {
-      jump(&dino_state, &dino, start_y);
+      jump(&dino_state, start_y);
     }
   }
 
