@@ -12,7 +12,8 @@
 #define TILE_N 32
 
 struct state {
-  OBJ_ATTR dino;
+  /* oam_init requires that this field is big enough for for one OBJ_AFFINE */
+  OBJ_ATTR dino[4];
   int x;
   int y;
   int direction;
@@ -63,24 +64,22 @@ int main() {
   memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
   memcpy16(pal_obj_mem, dinoPal, dinoPalLen / sizeof(u16));
 
-  // init buffer for this dino. we will copy this to OAM on VBLANK
-  OBJ_ATTR dino = {};
-  oam_init(&dino, 1);
-  u32 tile_index = 0, palette_bank = 0;
-  obj_set_attr(&dino, ATTR0_SQUARE, ATTR1_SIZE_32,
-               ATTR2_PALBANK(palette_bank) | tile_index);
-
   // set initial position of this dino
   // lets make our dinosaur be 2 tiles to the right and 4 tiles above the floor
   int start_x = TILE_HEIGHT * 2;
   int start_y = (floor_tile_y - 4) * TILE_HEIGHT;
   struct state dino_state = {
-      .dino = dino,
+      .dino = {},
       .x = start_x,
       .y = start_y,
       .direction = -1,
       .jump_initiated = 0,
   };
+  // init buffer for this dino. we will copy this to OAM on VBLANK
+  oam_init(dino_state.dino, 1);
+  u32 tile_index = 0, palette_bank = 0;
+  obj_set_attr(dino_state.dino, ATTR0_SQUARE, ATTR1_SIZE_32,
+               ATTR2_PALBANK(palette_bank) | tile_index);
 
   while (1) {
     vid_vsync();
@@ -95,15 +94,15 @@ int main() {
       jump(&dino_state, start_y);
     }
 
-    obj_set_pos(&dino_state.dino, dino_state.x, dino_state.y);
-    oam_copy(oam_mem, &dino_state.dino, 1);
+    obj_set_pos(dino_state.dino, dino_state.x, dino_state.y);
+    oam_copy(oam_mem, dino_state.dino, 1);
   }
 
   while (1) {
     vid_vsync();
     dino_state.x += 1;
-    obj_set_pos(&dino, dino_state.x, dino_state.y);
-    oam_copy(oam_mem, &dino, 1);
+    obj_set_pos(dino_state.dino, dino_state.x, dino_state.y);
+    oam_copy(oam_mem, dino_state.dino, 1);
   }
 
   return 0;
