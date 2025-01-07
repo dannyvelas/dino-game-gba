@@ -34,8 +34,6 @@ void jump(struct state *dino_state, int start_y) {
     // if we're in the middle of going up or going down in a jump
     // continue moving in that direction
     dino_state->y += TILE_HEIGHT * dino_state->direction;
-    obj_set_pos(&dino_state->dino, dino_state->x, dino_state->y);
-    oam_copy(oam_mem, &dino_state->dino, 1);
   }
 }
 
@@ -99,6 +97,9 @@ int main() {
     if (dino_state.jump_initiated) {
       jump(&dino_state, start_y);
     }
+
+    obj_set_pos(&dino_state.dino, dino_state.x, dino_state.y);
+    oam_copy(oam_mem, &dino_state.dino, 1);
   }
 
   while (1) {
