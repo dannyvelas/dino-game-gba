@@ -74,23 +74,24 @@ int main() {
       continue;
     }
 
-    int offset = dino_state.y - start_y;
-    if (dino_state.direction == -1 && offset == -40) {
-      // if we reached the arc of our jump, start going down
-      dino_state.direction = 1;
-    } else if (offset == 0 && dino_state.direction == 1) {
-      // if we reached the floor after a jump, flip the direction
-      // so that when we jump we go up again
-      dino_state.direction = -1;
-      dino_state.jump_initiated = 0;
-    } else if ((dino_state.direction == -1 && -32 <= offset && offset <= 0 &&
-                dino_state.jump_initiated) ||
-               (dino_state.direction == 1 && -40 <= offset && offset <= -8)) {
-      // if we're in the middle of going up or going down in a jump
-      // continue moving in that direction
-      dino_state.y += TILE_HEIGHT * dino_state.direction;
-      obj_set_pos(&dino, dino_state.x, dino_state.y);
-      oam_copy(oam_mem, &dino, 1);
+    if (dino_state.jump_initiated) {
+      int offset = dino_state.y - start_y;
+      if (dino_state.direction == -1 && offset == -40) {
+        // if we reached the arc of our jump, start going down
+        dino_state.direction = 1;
+      } else if (offset == 0 && dino_state.direction == 1) {
+        // if we reached the floor after a jump, flip the direction
+        // so that when we jump we go up again
+        dino_state.direction = -1;
+        dino_state.jump_initiated = 0;
+      } else if ((dino_state.direction == -1 && -32 <= offset && offset <= 0) ||
+                 (dino_state.direction == 1 && -40 <= offset && offset <= -8)) {
+        // if we're in the middle of going up or going down in a jump
+        // continue moving in that direction
+        dino_state.y += TILE_HEIGHT * dino_state.direction;
+        obj_set_pos(&dino, dino_state.x, dino_state.y);
+        oam_copy(oam_mem, &dino, 1);
+      }
     }
   }
 
