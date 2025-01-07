@@ -85,8 +85,8 @@ int main() {
   while (1) {
     vid_vsync();
     key_poll();
-    // if our y coordinate is at start and A is hit, start a jump
     if (dino_state.y == start_y && key_hit(KEY_A)) {
+      // if our y coordinate is at start and A is hit, start a jump
       dino_state.jump_initiated = 1;
       continue;
     }
