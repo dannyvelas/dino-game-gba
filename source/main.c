@@ -99,12 +99,5 @@ int main() {
     oam_copy(oam_mem, dino_state.dino, 1);
   }
 
-  while (1) {
-    vid_vsync();
-    dino_state.x += 1;
-    obj_set_pos(dino_state.dino, dino_state.x, dino_state.y);
-    oam_copy(oam_mem, dino_state.dino, 1);
-  }
-
   return 0;
 }
