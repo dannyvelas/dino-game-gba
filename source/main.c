@@ -81,6 +81,7 @@ int main() {
   obj_set_attr(dino_state.dino, ATTR0_SQUARE, ATTR1_SIZE_32,
                ATTR2_PALBANK(palette_bank) | tile_index);
 
+  u16 i = 0;
   while (1) {
     vid_vsync();
     key_poll();
@@ -97,6 +98,10 @@ int main() {
     // update OAM with new values that were calculated in this frame
     obj_set_pos(dino_state.dino, dino_state.x, dino_state.y);
     oam_copy(oam_mem, dino_state.dino, 1);
+
+    // scroll horizontal window
+    REG_BG0HOFS = i;
+    i += 1;
   }
 
   return 0;
