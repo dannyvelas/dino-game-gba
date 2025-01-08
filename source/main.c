@@ -81,7 +81,7 @@ int main() {
   obj_set_attr(dino_state.dino, ATTR0_SQUARE, ATTR1_SIZE_32,
                ATTR2_PALBANK(palette_bank) | tile_index);
 
-  u16 i = 0;
+  u16 h_scroll = 0;
   while (1) {
     vid_vsync();
     key_poll();
@@ -100,8 +100,8 @@ int main() {
     oam_copy(oam_mem, dino_state.dino, 1);
 
     // scroll horizontal window
-    REG_BG0HOFS = i;
-    i += 1;
+    REG_BG0HOFS = h_scroll;
+    h_scroll += 1;
   }
 
   return 0;
