@@ -68,9 +68,10 @@ int main() {
   memcpy16(pal_obj_mem, dinoPal, dinoPalLen / sizeof(u16));
 
   // set initial state of our dino
-  // lets make our dinosaur be 2 tiles to the right and 4 tiles above the floor
+  // lets make our dinosaur be 28 pixels above the floor
   int start_x = TILE_HEIGHT * 2;
-  int start_y = (floor_tile_y - 4) * TILE_HEIGHT;
+  int floor_y = TILE_HEIGHT * floor_tile_y;
+  int start_y = floor_y - 28;
   struct state dino_state = {
       .dino = {},
       .x = start_x,
@@ -110,7 +111,7 @@ int main() {
     oam_copy(oam_mem, dino_state.dino, 1);
 
     // scroll horizontal window
-    REG_BG0HOFS = i;
+    REG_BG0HOFS = i * 2;
     i += 1;
   }
 
