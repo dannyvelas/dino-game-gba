@@ -68,10 +68,10 @@ int main() {
   memcpy16(pal_obj_mem, dinoPal, dinoPalLen / sizeof(u16));
 
   // set initial state of our dino
-  // lets make our dinosaur be 28 pixels above the floor
+  // lets make our dinosaur be 24 pixels above the floor
   int start_x = TILE_HEIGHT * 2;
   int floor_y = TILE_HEIGHT * floor_tile_y;
-  int start_y = floor_y - 28;
+  int start_y = floor_y - 24;
   struct state dino_state = {
       .dino = {},
       .x = start_x,
