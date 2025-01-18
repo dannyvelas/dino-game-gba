@@ -1,0 +1,26 @@
+#ifndef DINO_H
+#define DINO_H
+
+#include <tonc.h>
+
+enum dino_action { JUMPING, LEFT_STEP, RIGHT_STEP };
+
+struct dino_state {
+  /* oam_init requires that this field is big enough for for one OBJ_AFFINE */
+  OBJ_ATTR dino[4];
+  u32 start_tile_index;
+  u32 palette_bank_index;
+  int start_y;
+  int x;
+  int y;
+  int direction;
+  enum dino_action action;
+  const int jump_speed;
+  const int jump_height;
+};
+
+struct dino_state init_dino_state(int floor_tile_y);
+
+void update_dino_state(struct dino_state *state, int frame);
+
+#endif // DINO_H
