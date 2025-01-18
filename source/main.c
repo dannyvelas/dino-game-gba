@@ -1,5 +1,5 @@
+#include "background.h"
 #include "dino.h"
-#include "sky.h"
 #include <tonc.h>
 
 // memory index defines
@@ -64,8 +64,9 @@ int main() {
   REG_BG0VOFS = 0;
 
   // load background data into memory
-  memcpy32(pal_bg_mem, skyPal, skyPalLen / sizeof(u32));
-  memcpy16(&tile_mem[CBB_INDEX][0], skyTiles, skyTilesLen / sizeof(u16));
+  memcpy32(pal_bg_mem, backgroundPal, backgroundPalLen / sizeof(u32));
+  memcpy16(&tile_mem[CBB_INDEX][0], backgroundTiles,
+           backgroundTilesLen / sizeof(u16));
 
   // load sprite data into memory at very first sprite charblock (4)
   memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
