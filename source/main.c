@@ -7,9 +7,9 @@
 #define SBB_INDEX 31
 #define CBB_INDEX 0
 
-#define TILE_HEIGHT 8
-#define AMT_ROWS (SCREEN_HEIGHT / TILE_HEIGHT)
-#define TILE_N 32
+#define TILE_DIM 8
+#define AMT_ROWS (SCREEN_HEIGHT / TILE_DIM)
+#define BG_DIM_TILES 32
 
 enum dino_action { JUMPING, LEFT_STEP, RIGHT_STEP };
 
@@ -24,7 +24,7 @@ struct state {
 
 void jump(struct state *dino_state, int start_y) {
   int offset = dino_state->y - start_y;
-  int jump_speed = TILE_HEIGHT / 2;
+  int jump_speed = TILE_DIM / 2;
   int arc = -(jump_speed * 20);
   if (dino_state->direction == -1 && offset == arc) {
     // if we reached the arc of our jump, start going down
@@ -64,13 +64,13 @@ int main() {
   // load background tile maps. lets make the floor 3 tiles up from bottom
   int floor_tile_y = (AMT_ROWS - 4);
   int floor_tile_index = 1;
-  toncset16(&se_mem[SBB_INDEX][floor_tile_y * TILE_N], floor_tile_index,
-            TILE_N);
+  toncset16(&se_mem[SBB_INDEX][floor_tile_y * BG_DIM_TILES], floor_tile_index,
+            BG_DIM_TILES);
 
   // set initial state of our dino
   // lets make our dinosaur be 24 pixels above the floor
-  int start_x = TILE_HEIGHT * 2;
-  int floor_y = TILE_HEIGHT * floor_tile_y;
+  int start_x = TILE_DIM * 2;
+  int floor_y = TILE_DIM * floor_tile_y;
   int start_y = floor_y - 24;
   struct state dino_state = {
       .dino = {},
