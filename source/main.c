@@ -97,9 +97,9 @@ int main() {
 
     if (dino_state.action == JUMPING) {
       jump(&dino_state, start_y);
-    } else if (i % 4 == 0 && dino_state.action == LEFT_STEP) {
+    } else if (i % 6 == 0 && dino_state.action == LEFT_STEP) {
       dino_state.action = RIGHT_STEP;
-    } else if (i % 4 == 0 && dino_state.action == RIGHT_STEP) {
+    } else if (i % 6 == 0 && dino_state.action == RIGHT_STEP) {
       dino_state.action = LEFT_STEP;
     }
 
