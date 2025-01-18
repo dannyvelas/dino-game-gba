@@ -57,15 +57,15 @@ int main() {
   memcpy32(pal_bg_mem, skyPal, skyPalLen / sizeof(u32));
   memcpy16(&tile_mem[CBB_INDEX][0], skyTiles, skyTilesLen / sizeof(u16));
 
+  // load sprite data into memory at very first sprite charblock (4)
+  memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
+  memcpy16(pal_obj_mem, dinoPal, dinoPalLen / sizeof(u16));
+
   // load background tile maps. lets make the floor 3 tiles up from bottom
   int floor_tile_y = (AMT_ROWS - 4);
   int floor_tile_index = 1;
   toncset16(&se_mem[SBB_INDEX][floor_tile_y * TILE_N], floor_tile_index,
             TILE_N);
-
-  // place dino sprite into very first sprite charblock (4)
-  memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
-  memcpy16(pal_obj_mem, dinoPal, dinoPalLen / sizeof(u16));
 
   // set initial state of our dino
   // lets make our dinosaur be 24 pixels above the floor
@@ -81,9 +81,9 @@ int main() {
   };
   // init default object values for our dino. we will copy this to OAM on VBLANK
   oam_init(dino_state.dino, 1);
-  u32 tile_index = 0, palette_bank = 0;
+  u32 sprite_start_tile = 0, palette_bank = 0;
   obj_set_attr(dino_state.dino, ATTR0_SQUARE, ATTR1_SIZE_32,
-               ATTR2_PALBANK(palette_bank) | tile_index);
+               ATTR2_PALBANK(palette_bank) | sprite_start_tile);
 
   u16 i = 0;
   while (1) {
@@ -103,8 +103,9 @@ int main() {
       dino_state.action = LEFT_STEP;
     }
 
+    sprite_start_tile = dino_state.action * 16;
     obj_set_attr(dino_state.dino, ATTR0_SQUARE, ATTR1_SIZE_32,
-                 ATTR2_PALBANK(palette_bank) | (dino_state.action * 16));
+                 ATTR2_PALBANK(palette_bank) | sprite_start_tile);
 
     // update OAM with new values that were calculated in this frame
     obj_set_pos(dino_state.dino, dino_state.x, dino_state.y);
