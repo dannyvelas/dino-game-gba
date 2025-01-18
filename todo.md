@@ -1,4 +1,4 @@
 - [] rename sky.png to bg.png
-- [] make dino look like its running by continuously changing its sprite to point to the one with the left leg lifted and then the one with the right leg lifted
+- [x] make dino look like its running by continuously changing its sprite to point to the one with the left leg lifted and then the one with the right leg lifted
 - [] maybe add gravity to dinosaur
 - [] add cacti

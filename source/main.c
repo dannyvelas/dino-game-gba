@@ -2,14 +2,24 @@
 #include "sky.h"
 #include <tonc.h>
 
+// memory index defines
 // convention is to make the screen base block as far right in VRAM as you can
 // we are using a 32x32t map so we can use the very last screen block
 #define SBB_INDEX 31
 #define CBB_INDEX 0
 
-#define TILE_DIM 8
-#define AMT_ROWS (SCREEN_HEIGHT / TILE_DIM)
-#define BG_DIM_TILES 32
+// background defines
+#define TILE_DIM_PIXELS 8 // dimensions of tiles in terms of pixels
+#define AMT_ROWS                                                               \
+  (SCREEN_HEIGHT / TILE_DIM_PIXELS) // amt of rows in the background
+#define BG_DIM_TILES 32 // dimensions of background in terms of tiles
+
+// sprite defines
+// dimensions of our dino sprite in terms of tiles
+#define DINO_DIM_TILES 32
+// amount of tiles in our dino sprite
+#define DINO_AMT_TILES                                                         \
+  ((DINO_DIM_TILES * DINO_DIM_TILES) / (TILE_DIM_PIXELS * TILE_DIM_PIXELS))
 
 enum dino_action { JUMPING, LEFT_STEP, RIGHT_STEP };
 
@@ -24,7 +34,7 @@ struct state {
 
 void jump(struct state *dino_state, int start_y) {
   int offset = dino_state->y - start_y;
-  int jump_speed = TILE_DIM / 2;
+  int jump_speed = TILE_DIM_PIXELS / 2;
   int arc = -(jump_speed * 20);
   if (dino_state->direction == -1 && offset == arc) {
     // if we reached the arc of our jump, start going down
@@ -47,7 +57,7 @@ int main() {
   REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0;
 
   // set the background using charblock 0 as the character base block
-  // and SBB. 4bpp background tiles and 32x32 tiles
+  // and SBB. each background tile is 4bpp. background is of size 32x32 tiles.
   REG_BG0CNT = BG_CBB(CBB_INDEX) | BG_SBB(SBB_INDEX) | BG_4BPP | BG_REG_32x32;
   // set scrolling registers to 0
   REG_BG0HOFS = 0;
@@ -69,8 +79,8 @@ int main() {
 
   // set initial state of our dino
   // lets make our dinosaur be 24 pixels above the floor
-  int start_x = TILE_DIM * 2;
-  int floor_y = TILE_DIM * floor_tile_y;
+  int start_x = TILE_DIM_PIXELS * 2;
+  int floor_y = TILE_DIM_PIXELS * floor_tile_y;
   int start_y = floor_y - 24;
   struct state dino_state = {
       .dino = {},
@@ -103,7 +113,7 @@ int main() {
       dino_state.action = LEFT_STEP;
     }
 
-    sprite_start_tile = dino_state.action * 16;
+    sprite_start_tile = dino_state.action * DINO_AMT_TILES;
     obj_set_attr(dino_state.dino, ATTR0_SQUARE, ATTR1_SIZE_32,
                  ATTR2_PALBANK(palette_bank) | sprite_start_tile);
 
