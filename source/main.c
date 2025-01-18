@@ -1,5 +1,5 @@
 #include "background.h"
-#include "dino.h"
+#include "dinosaur.h"
 #include <tonc.h>
 
 // memory index defines
@@ -69,8 +69,8 @@ int main() {
            backgroundTilesLen / sizeof(u16));
 
   // load sprite data into memory at very first sprite charblock (4)
-  memcpy32(&tile_mem[4][0], dinoTiles, dinoTilesLen / sizeof(u32));
-  memcpy16(pal_obj_mem, dinoPal, dinoPalLen / sizeof(u16));
+  memcpy32(&tile_mem[4][0], dinosaurTiles, dinosaurTilesLen / sizeof(u32));
+  memcpy16(pal_obj_mem, dinosaurPal, dinosaurPalLen / sizeof(u16));
 
   // load background tile maps. lets make the floor 3 tiles up from bottom
   int floor_tile_y = (AMT_ROWS - 4);
