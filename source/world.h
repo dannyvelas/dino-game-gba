@@ -3,6 +3,6 @@
 
 #include <tonc.h>
 
-void init_world(SCREENBLOCK, int floor_pixel_y);
+void init_world(int floor_pixel_y);
 
 #endif // WORLD_H
