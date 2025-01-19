@@ -17,20 +17,17 @@ void load_world() {
   REG_BG0VOFS = 0;
 
   // load background data into memory
-  memcpy32(pal_bg_mem, backgroundPal, backgroundPalLen / sizeof(u32));
-  memcpy16(&tile_mem[CBB_INDEX][0], backgroundTiles,
-           backgroundTilesLen / sizeof(u16));
+  memcpy32(&tile_mem[CBB_INDEX][0], backgroundTiles,
+           backgroundTilesLen / sizeof(u32));
+  memcpy16(pal_bg_mem, backgroundPal, backgroundPalLen / sizeof(u16));
 }
 
 void init_world(int floor_scr_entry_y) {
   int scr_entry_start = floor_scr_entry_y * BG_DIM;
-  // int amt_bg_tiles = backgroundTilesLen / sizeof(u16);
-  u16 tile_index = 1;
+  // a group of 8 ints makes one tile
+  int amt_bg_tiles = backgroundTilesLen / sizeof(u32) / 8;
   for (int i = scr_entry_start; i < BG_DIM + scr_entry_start; i++) {
+    u16 tile_index = (i % (amt_bg_tiles - 1)) + 1;
     se_mem[SBB_INDEX][i] = tile_index;
-    tile_index += 1;
-    if (tile_index == 9) {
-      tile_index = 1;
-    }
   }
 }
