@@ -1,38 +1,15 @@
 #include "dino.h"
-#include <tonc.h>
+#include "util.h"
 
-#define TILE_DIM_PIXELS 8 // dimensions of tiles in terms of pixels
-// dimensions of our dino sprite in terms of tiles
-#define DINO_DIM_TILES 32
 // amount of tiles in our dino sprite
-#define DINO_AMT_TILES                                                         \
-  ((DINO_DIM_TILES * DINO_DIM_TILES) / (TILE_DIM_PIXELS * TILE_DIM_PIXELS))
+#define DINO_AMT_TILES 16
 
-static void jump(struct dino_state *state) {
-  int offset = state->y - state->start_y;
-  if (state->direction == -1 && offset == -state->jump_height) {
-    // if we reached the arc of our jump, start going down
-    state->direction = 1;
-  } else if (offset == 0 && state->direction == 1) {
-    // if we reached the floor after a jump, flip the direction
-    // so that when we jump we go up again
-    state->direction = -1;
-    state->action = LEFT_STEP;
-  } else if ((state->direction == -1 && offset <= 0) ||
-             (state->direction == 1 && offset <= -state->jump_speed)) {
-    // if we're in the middle of going up or going down in a jump
-    // continue moving in that direction
-    state->y += state->jump_speed * state->direction;
-  }
-}
-
-struct dino_state init_dino_state(int floor_tile_y) {
+struct dino_state init_dino_state(int floor_pixel_y) {
   // lets make our dino be 2 tiles to the right and 24 pixels above the floor
-  int floor_y = TILE_DIM_PIXELS * floor_tile_y;
-  int start_y = floor_y - 24;
+  int start_y = floor_pixel_y - 24;
 
   // some constants for calculating jumps
-  int jump_speed = TILE_DIM_PIXELS / 2;
+  int jump_speed = 4; // roughly pixels per frame
   int jump_height = jump_speed * 20;
 
   struct dino_state state = {
@@ -40,7 +17,7 @@ struct dino_state init_dino_state(int floor_tile_y) {
       .start_tile_index = 0,
       .palette_bank_index = 0,
       .start_y = start_y,
-      .x = TILE_DIM_PIXELS * 2,
+      .x = pixels_to_tiles(2),
       .y = start_y,
       .direction = -1,
       .action = LEFT_STEP,
@@ -72,4 +49,22 @@ void update_dino_state(struct dino_state *state, int frame) {
   }
 
   state->start_tile_index = state->action * DINO_AMT_TILES;
+}
+
+void jump(struct dino_state *state) {
+  int offset = state->y - state->start_y;
+  if (state->direction == -1 && offset == -state->jump_height) {
+    // if we reached the arc of our jump, start going down
+    state->direction = 1;
+  } else if (offset == 0 && state->direction == 1) {
+    // if we reached the floor after a jump, flip the direction
+    // so that when we jump we go up again
+    state->direction = -1;
+    state->action = LEFT_STEP;
+  } else if ((state->direction == -1 && offset <= 0) ||
+             (state->direction == 1 && offset <= -state->jump_speed)) {
+    // if we're in the middle of going up or going down in a jump
+    // continue moving in that direction
+    state->y += state->jump_speed * state->direction;
+  }
 }

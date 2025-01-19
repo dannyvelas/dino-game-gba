@@ -23,4 +23,6 @@ struct dino_state init_dino_state(int floor_tile_y);
 
 void update_dino_state(struct dino_state *state, int frame);
 
+void jump(struct dino_state *state);
+
 #endif // DINO_H
