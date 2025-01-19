@@ -1,5 +1,6 @@
 - [x] make dino look like its running by continuously changing its sprite to point to the one with the left leg lifted and then the one with the right leg lifted
 - [x] rename sky.png to bg.png
+- [ ] change dino.h/dino.c to use "tile" for the 8x8pixel squares in charblocks and "screenblock entry" for the 8x8bit pixel squares that are shown on the screen
 - [] make floor look more realistic
 - [] maybe add gravity to dinosaur
 - [] add cacti
