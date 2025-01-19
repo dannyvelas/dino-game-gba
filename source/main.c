@@ -13,6 +13,7 @@ int main() {
   memcpy16(pal_obj_mem, dinosaurPal, dinosaurPalLen / sizeof(u16));
 
   // init world
+  load_world();
   int floor_tile_y = SCREEN_HEIGHT_T - 4; // lets make floor 4 tiles off ground
   init_world(floor_tile_y);
 

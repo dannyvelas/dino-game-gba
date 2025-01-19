@@ -8,7 +8,7 @@ static const int BG_DIM = 32; // background dimensions: 32x32 tiles
 // we're using a map of size 32x32 tiles, so we can use the very last one
 static const int SBB_INDEX = 31;
 
-void load_bgs() {
+void load_world() {
   // set the background using charblock 0 as the character base block
   // and SBB. each background tile is 4bpp. background is of size 32x32 tiles.
   REG_BG0CNT = BG_CBB(CBB_INDEX) | BG_SBB(SBB_INDEX) | BG_4BPP | BG_REG_32x32;
