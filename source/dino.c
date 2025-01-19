@@ -1,5 +1,4 @@
 #include "dino.h"
-#include "util.h"
 
 // amount of tiles in our dino sprite
 #define DINO_AMT_TILES 16
