@@ -1,5 +1,4 @@
 #include "dino.h"
-#include "dinosaur.h"
 #include "util.h"
 #include "world.h"
 #include <tonc.h>
@@ -8,12 +7,10 @@ int main() {
   // set I/O register to use mode0, sprites, 1d sprites and tiled background 0
   REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0;
 
-  // load sprite data into memory at very first sprite charblock (4)
-  memcpy32(&tile_mem[4][0], dinosaurTiles, dinosaurTilesLen / sizeof(u32));
-  memcpy16(pal_obj_mem, dinosaurPal, dinosaurPalLen / sizeof(u16));
+  // load background and sprite assets
+  load_world();
 
   // init world; lets make floor 4 screenblock entries off ground
-  load_world();
   int floor_scr_entry_y = SCREEN_HEIGHT_T - 4;
   init_world(floor_scr_entry_y);
 
