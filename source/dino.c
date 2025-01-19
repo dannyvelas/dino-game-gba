@@ -5,8 +5,8 @@
 #define DINO_AMT_TILES 16
 
 struct dino_state init_dino_state(int floor_pixel_y) {
-  // lets make our dino be 2 tiles to the right and 24 pixels above the floor
-  int start_y = floor_pixel_y - 24;
+  // lets make our dino be 21 pixels above the floor
+  int start_y = floor_pixel_y - 21;
 
   // some constants for calculating jumps
   int jump_speed = 4; // roughly pixels per frame
@@ -17,7 +17,7 @@ struct dino_state init_dino_state(int floor_pixel_y) {
       .start_tile_index = 0,
       .palette_bank_index = 0,
       .start_y = start_y,
-      .x = pixels_to_tiles(2),
+      .x = 0,
       .y = start_y,
       .direction = -1,
       .action = LEFT_STEP,
