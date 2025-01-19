@@ -12,13 +12,13 @@ int main() {
   memcpy32(&tile_mem[4][0], dinosaurTiles, dinosaurTilesLen / sizeof(u32));
   memcpy16(pal_obj_mem, dinosaurPal, dinosaurPalLen / sizeof(u16));
 
-  // init world
+  // init world; lets make floor 4 screenblock entries off ground
   load_world();
-  int floor_tile_y = SCREEN_HEIGHT_T - 4; // lets make floor 4 tiles off ground
-  init_world(floor_tile_y);
+  int floor_scr_entry_y = SCREEN_HEIGHT_T - 4;
+  init_world(floor_scr_entry_y);
 
   // init dino state
-  struct dino_state state = init_dino_state(tiles_to_pixels(floor_tile_y));
+  struct dino_state state = init_dino_state(tiles_to_pixels(floor_scr_entry_y));
 
   int frame = 0;
   int scroll_velocity = 2;

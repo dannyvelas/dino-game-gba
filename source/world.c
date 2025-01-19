@@ -22,14 +22,15 @@ void load_world() {
            backgroundTilesLen / sizeof(u16));
 }
 
-void init_world(int floor_tile_y) {
-  SCREENBLOCK *screen_block = &se_mem[SBB_INDEX];
-  int floor_tile_start_index = floor_tile_y * BG_DIM;
-  int amt_bg_tiles = backgroundTilesLen / sizeof(u16);
-  for (int i = floor_tile_start_index; i < BG_DIM + floor_tile_start_index;
-       i++) {
-    for (u16 j = 0; j < amt_bg_tiles; j++) {
-      *screen_block[i] = j;
+void init_world(int floor_scr_entry_y) {
+  int scr_entry_start = floor_scr_entry_y * BG_DIM;
+  // int amt_bg_tiles = backgroundTilesLen / sizeof(u16);
+  u16 tile_index = 1;
+  for (int i = scr_entry_start; i < BG_DIM + scr_entry_start; i++) {
+    se_mem[SBB_INDEX][i] = tile_index;
+    tile_index += 1;
+    if (tile_index == 9) {
+      tile_index = 1;
     }
   }
 }
