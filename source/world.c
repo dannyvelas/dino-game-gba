@@ -1,6 +1,6 @@
 #include "world.h"
 #include "background.h"
-#include "dinosaur.h"
+#include "sprites.h"
 
 static const int CBB_INDEX = 0;
 static const int BG_DIM = 32; // background dimensions: 32x32 tiles
@@ -23,8 +23,8 @@ void load_world() {
   memcpy16(pal_bg_mem, backgroundPal, backgroundPalLen / sizeof(u16));
 
   // load sprite data into memory at very first sprite charblock (4)
-  memcpy32(&tile_mem[4][0], dinosaurTiles, dinosaurTilesLen / sizeof(u32));
-  memcpy16(pal_obj_mem, dinosaurPal, dinosaurPalLen / sizeof(u16));
+  memcpy32(&tile_mem[4][0], spritesTiles, spritesTilesLen / sizeof(u32));
+  memcpy16(pal_obj_mem, spritesPal, spritesPalLen / sizeof(u16));
 }
 
 void init_world(int floor_scr_entry_y) {
