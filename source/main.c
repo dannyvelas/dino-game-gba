@@ -32,9 +32,8 @@ int main() {
     update_dino_state(&state, frame);
 
     // update OAM with new values that were calculated in this frame
-    obj_set_attr(state.dino, ATTR0_SQUARE, ATTR1_SIZE_32,
-                 ATTR2_PALBANK(state.palette_bank_index) |
-                     state.start_tile_index);
+    state.dino->attr2 =
+        ATTR2_BUILD(state.start_tile_index, state.palette_bank_index, 0);
     obj_set_pos(state.dino, state.x, state.y);
     oam_copy(oam_mem, state.dino, 1);
 
