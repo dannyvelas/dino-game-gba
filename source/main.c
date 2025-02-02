@@ -33,7 +33,7 @@ int main() {
 
     // update OAM with new values that were calculated in this frame
     state.dino->attr2 =
-        ATTR2_BUILD(state.start_tile_index, state.palette_bank_index, 0);
+        ATTR2_BUILD(state.tile_index, state.palette_bank_index, 0);
     obj_set_pos(state.dino, state.x, state.y);
     oam_copy(oam_mem, state.dino, 1);
 

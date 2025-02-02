@@ -13,7 +13,7 @@ struct dino_state init_dino_state(int floor_pixel_y) {
 
   struct dino_state state = {
       .dino = {},
-      .start_tile_index = 0,
+      .tile_index = 0,
       .palette_bank_index = 0,
       .start_y = start_y,
       .x = 0,
@@ -26,8 +26,7 @@ struct dino_state init_dino_state(int floor_pixel_y) {
   // init default object values for our dino. we will copy this to OAM on VBLANK
   oam_init(state.dino, 1);
   obj_set_attr(state.dino, ATTR0_SQUARE, ATTR1_SIZE_32,
-               ATTR2_PALBANK(state.palette_bank_index) |
-                   state.start_tile_index);
+               ATTR2_PALBANK(state.palette_bank_index) | state.tile_index);
 
   return state;
 }
@@ -47,7 +46,7 @@ void update_dino_state(struct dino_state *state, int frame) {
     state->action = LEFT_STEP;
   }
 
-  state->start_tile_index = state->action * DINO_AMT_TILES;
+  state->tile_index = state->action * DINO_AMT_TILES;
 }
 
 void jump(struct dino_state *state) {

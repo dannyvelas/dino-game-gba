@@ -8,7 +8,7 @@ enum dino_action { JUMPING, LEFT_STEP, RIGHT_STEP };
 struct dino_state {
   /* oam_init requires that this field is big enough for for one OBJ_AFFINE */
   OBJ_ATTR dino[4];
-  u32 start_tile_index;
+  u32 tile_index;
   u32 palette_bank_index;
   int start_y;
   int x;
