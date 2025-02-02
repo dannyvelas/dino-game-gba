@@ -40,11 +40,11 @@ void init_floor(int floor_scr_entry_y) {
 }
 
 void init_cacti(OBJ_ATTR *obj_buffer, int floor_pixels_y) {
-  // OBJ_ATTR *cactus = &obj_buffer[1];
-  // u32 tile_index = CACTUS_SPRITE_INDEX * TILE_LEN_32;
-  // obj_set_attr(cactus, ATTR0_SQUARE, ATTR1_SIZE_32,
-  //              ATTR2_PALBANK(0) | tile_index);
-  // obj_set_pos(cactus, 28, floor_pixels_y);
+  OBJ_ATTR *cactus = &obj_buffer[1];
+  u32 tile_index = 48;
+  obj_set_attr(cactus, ATTR0_SQUARE, ATTR1_SIZE_32,
+               ATTR2_PALBANK(0) | tile_index);
+  obj_set_pos(cactus, 28, floor_pixels_y);
 }
 
 // initializes floor tiles and non-dino sprites
