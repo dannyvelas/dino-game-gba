@@ -3,16 +3,12 @@
 // amount of tiles in our dino sprite
 #define DINO_AMT_TILES 16
 
-struct dino_state init_dino_state(int floor_pixel_y) {
-  // lets make our dino be 21 pixels above the floor
-  int start_y = floor_pixel_y - 21;
-
+struct dino_state init_dino_state(int start_y) {
   // some constants for calculating jumps
   int jump_speed = 4; // roughly pixels per frame
   int jump_height = jump_speed * 20;
 
   struct dino_state state = {
-      .dino = {},
       .tile_index = 0,
       .palette_bank_index = 0,
       .start_y = start_y,
@@ -23,10 +19,6 @@ struct dino_state init_dino_state(int floor_pixel_y) {
       .jump_speed = jump_speed,
       .jump_height = jump_height,
   };
-  // init default object values for our dino. we will copy this to OAM on VBLANK
-  oam_init(state.dino, 1);
-  obj_set_attr(state.dino, ATTR0_SQUARE, ATTR1_SIZE_32,
-               ATTR2_PALBANK(state.palette_bank_index) | state.tile_index);
 
   return state;
 }

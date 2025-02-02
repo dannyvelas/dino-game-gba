@@ -4,6 +4,6 @@
 #include <tonc.h>
 
 void load_world();
-void init_world(int floor_pixel_y);
+int init_world();
 
 #endif // WORLD_H
