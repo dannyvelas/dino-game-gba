@@ -26,8 +26,8 @@ struct dino_state init_dino_state(int floor_pixel_y) {
   // init default object values for our dino. we will copy this to OAM on VBLANK
   oam_init(state.dino, 1);
   obj_set_attr(state.dino, ATTR0_SQUARE, ATTR1_SIZE_32,
-               ATTR2_PALBANK(state.start_tile_index) |
-                   state.palette_bank_index);
+               ATTR2_PALBANK(state.palette_bank_index) |
+                   state.start_tile_index);
 
   return state;
 }
