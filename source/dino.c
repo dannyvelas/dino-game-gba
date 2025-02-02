@@ -1,7 +1,5 @@
 #include "dino.h"
-
-// amount of tiles in our dino sprite
-#define DINO_AMT_TILES 16
+#include "util.h"
 
 struct dino_state init_dino_state(int start_y) {
   // some constants for calculating jumps
@@ -38,7 +36,7 @@ void update_dino_state(struct dino_state *state, int frame) {
     state->action = LEFT_STEP;
   }
 
-  state->tile_index = state->action * DINO_AMT_TILES;
+  state->tile_index = state->action * SPRITE_TILE_DIM;
 }
 
 void jump(struct dino_state *state) {
