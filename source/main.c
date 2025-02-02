@@ -20,7 +20,7 @@ int main() {
   load_world();
 
   // init world
-  int sprite_floor_pixels_y = init_world();
+  int sprite_floor_pixels_y = init_world(obj_buffer);
 
   // initialize dino sprite and state
   OBJ_ATTR *dino = &obj_buffer[0];
@@ -41,7 +41,7 @@ int main() {
     // update OAM with new values that were calculated in this frame
     dino->attr2 = ATTR2_BUILD(state.tile_index, state.palette_bank_index, 0);
     obj_set_pos(dino, state.x, state.y);
-    oam_copy(oam_mem, dino, 1);
+    oam_copy(oam_mem, obj_buffer, 2);
 
     // scroll horizontal window
     scroll_offset += scroll_velocity;
