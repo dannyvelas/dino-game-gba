@@ -6,6 +6,11 @@
 int main() {
   // set I/O register to use mode0, sprites, 1d sprites and tiled background 0
   REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0;
+  // put tonc interrupt switchboard at address that is used for interrupts
+  irq_init(NULL);
+  // make hardware fire and receive VBlank interrupts. No function will run;
+  // this is just needed for VBlankIntrWait
+  irq_add(II_VBLANK, NULL);
 
   // load background and sprite assets
   load_world();
@@ -21,7 +26,7 @@ int main() {
   int scroll_velocity = 2;
   int scroll_offset = 0;
   while (1) {
-    vid_vsync();
+    VBlankIntrWait();
     key_poll();
 
     update_dino_state(&state, frame);
