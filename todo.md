@@ -1,6 +1,11 @@
 - [x] make dino look like its running by continuously changing its sprite to point to the one with the left leg lifted and then the one with the right leg lifted
 - [x] rename sky.png to bg.png
-- [ ] change dino.h/dino.c to use "tile" for the 8x8pixel squares in charblocks and "screenblock entry" for the 8x8bit pixel squares that are shown on the screen
-- [] make floor look more realistic
+- [x] change dino.h/dino.c to use "tile" for the 8x8pixel squares in charblocks and "screenblock entry" for the 8x8bit pixel squares that are shown on the screen
+- [x] make floor look more realistic
+- [x] add cactus
+- [ ] stop using magic numbers for cactus state
+- [ ] get rid of unused variables in world.c
+- [ ] figure out where to put `cactus_state` struct
+- [ ] add collision detection if dino crashes into cactus
 - [] maybe add gravity to dinosaur
-- [] add cacti
+- [] maybe add a way for hard presses to make dino jump higher and soft presses to lower

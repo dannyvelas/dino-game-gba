@@ -4,10 +4,6 @@
 #include "util.h"
 
 static const int CBB_INDEX = 0;
-static const int BG_DIM = 32;     // background dimensions: 32x32 tiles
-static const int TILE_LEN_32 = 8; // a group of 8 32-bit ints makes one tile
-static const int CACTUS_SPRITE_INDEX = 3; // cactus is 4th in the sprite sheet
-
 // convention is to make the screen base block as far right in VRAM as you can
 // we're using a map of size 32x32 tiles, so we can use the very last one
 static const int SBB_INDEX = 31;
@@ -30,25 +26,12 @@ void load_world() {
   memcpy16(pal_obj_mem, spritesPal, spritesPalLen / sizeof(u16));
 }
 
-void init_floor(int floor_scr_entry_y) {
-  int scr_entry_start = floor_scr_entry_y * BG_DIM;
-  int amt_bg_tiles = backgroundTilesLen / sizeof(u32) / TILE_LEN_32;
+// initializes floor tiles and non-dino sprites
+void init_world() {
+  int scr_entry_start = FLOOR_SCR_ENTRY_Y * BG_DIM;
+  int amt_bg_tiles = backgroundTilesLen / sizeof(u32) / TILE_32BIT_AMT;
   for (int i = scr_entry_start; i < BG_DIM + scr_entry_start; i++) {
     u16 tile_index = (i % (amt_bg_tiles - 1)) + 1;
     se_mem[SBB_INDEX][i] = tile_index;
   }
-}
-
-// initializes floor tiles and non-dino sprites
-// returns the y pixel that sprites should use as a floor
-int init_world(OBJ_ATTR *obj_buffer) {
-  // lets make floor 4 screenblock entries off ground
-  int floor_scr_entry_y = SCREEN_HEIGHT_T - 4;
-  // lets make our sprites be 21 pixels above the floor
-  int sprite_floor_pixels_y = tiles_to_pixels(floor_scr_entry_y) - 21;
-
-  // init floor tiles
-  init_floor(floor_scr_entry_y);
-
-  return sprite_floor_pixels_y;
 }

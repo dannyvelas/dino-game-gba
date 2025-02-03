@@ -1,7 +1,7 @@
 #include "dino.h"
 #include "util.h"
 
-struct dino_state init_dino_state(int start_y) {
+struct dino_state init_dino_state() {
   // some constants for calculating jumps
   int jump_speed = 4; // roughly pixels per frame
   int jump_height = jump_speed * 20;
@@ -9,9 +9,9 @@ struct dino_state init_dino_state(int start_y) {
   struct dino_state state = {
       .tile_index = 0,
       .palette_bank_index = 0,
-      .start_y = start_y,
+      .start_y = SPRITE_FLOOR_PIXELS_Y,
       .x = 0,
-      .y = start_y,
+      .y = SPRITE_FLOOR_PIXELS_Y,
       .direction = -1,
       .action = LEFT_STEP,
       .jump_speed = jump_speed,
@@ -36,7 +36,7 @@ void update_dino_state(struct dino_state *state, int frame) {
     state->action = LEFT_STEP;
   }
 
-  state->tile_index = state->action * SPRITE_TILE_DIM;
+  state->tile_index = state->action * SPRITE_TILE_AMT;
 }
 
 void jump(struct dino_state *state) {

@@ -4,6 +4,6 @@
 #include <tonc.h>
 
 void load_world();
-int init_world(OBJ_ATTR *obj_buffer);
+void init_world();
 
 #endif // WORLD_H

@@ -17,7 +17,7 @@ struct dino_state {
   const int jump_height;
 };
 
-struct dino_state init_dino_state(int floor_tile_y);
+struct dino_state init_dino_state();
 
 void update_dino_state(struct dino_state *state, int frame);
 
