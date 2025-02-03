@@ -39,14 +39,6 @@ void init_floor(int floor_scr_entry_y) {
   }
 }
 
-void init_cacti(OBJ_ATTR *obj_buffer, int floor_pixels_y) {
-  OBJ_ATTR *cactus = &obj_buffer[1];
-  u32 tile_index = SPRITE_TILE_DIM * CACTUS_SPRITE_INDEX;
-  obj_set_attr(cactus, ATTR0_SQUARE, ATTR1_SIZE_32,
-               ATTR2_PALBANK(0) | tile_index);
-  obj_set_pos(cactus, 28, floor_pixels_y);
-}
-
 // initializes floor tiles and non-dino sprites
 // returns the y pixel that sprites should use as a floor
 int init_world(OBJ_ATTR *obj_buffer) {
@@ -57,9 +49,6 @@ int init_world(OBJ_ATTR *obj_buffer) {
 
   // init floor tiles
   init_floor(floor_scr_entry_y);
-
-  // init cacti sprites
-  init_cacti(obj_buffer, sprite_floor_pixels_y);
 
   return sprite_floor_pixels_y;
 }
