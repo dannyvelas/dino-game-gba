@@ -56,7 +56,7 @@ int main() {
     }
 
     // update OAM with new values that were calculated in this frame
-    oam_copy(oam_mem, obj_buffer, 2);
+    oam_copy(oam_mem, obj_buffer, 3);
 
     // scroll horizontal window
     scroll_offset += scroll_velocity;

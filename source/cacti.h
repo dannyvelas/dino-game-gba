@@ -5,8 +5,8 @@
 
 // the first cactus is 4th in the sprite sheet
 #define CACTI_START_SPRITE_INDEX 3
-// there is one cactus in total
-#define CACTI_AMT 1
+// there are two cacti in total
+#define CACTI_AMT 2
 
 struct cactus_state {
   u32 tile_index;
