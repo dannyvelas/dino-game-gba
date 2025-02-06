@@ -3,9 +3,11 @@
 - [x] change dino.h/dino.c to use "tile" for the 8x8pixel squares in charblocks and "screenblock entry" for the 8x8bit pixel squares that are shown on the screen
 - [x] make floor look more realistic
 - [x] add cactus
-- [ ] stop using magic numbers for cactus state
-- [ ] get rid of unused variables in world.c
-- [ ] figure out where to put `cactus_state` struct
+- [x] stop using magic numbers for cactus state
+- [x] get rid of unused variables in world.c
+- [x] figure out where to put `cactus_state` struct
 - [ ] add collision detection if dino crashes into cactus
-- [] maybe add gravity to dinosaur
-- [] maybe add a way for hard presses to make dino jump higher and soft presses to lower
+- [ ] maybe add gravity to dinosaur
+- [ ] maybe add a way for hard presses to make dino jump higher and soft presses to lower
+- [ ] make cacti spawn in random places
+- [ ] add more floor tiles or make them spawn randomly so its harder to notice a pattern
