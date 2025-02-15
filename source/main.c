@@ -24,17 +24,17 @@ int main() {
 
   // initialize dino sprite and state
   OBJ_ATTR *dino = &obj_buffer[0];
-  struct dino_state state = init_dino_state();
+  struct dino_state dino_state = init_dino_state();
   // init default object values for our dino. we will copy this to OAM on VBLANK
   obj_set_attr(dino, ATTR0_SQUARE, ATTR1_SIZE_32,
-               ATTR2_PALBANK(state.palette_bank_index) | state.tile_index);
+               ATTR2_PALBANK(dino_state.palette_bank_index) |
+                   dino_state.tile_index);
 
   // init cacti
   struct cactus_state *cacti_state = init_cacti_state();
   for (int i = 0; i < CACTI_AMT; i++) {
-    struct cactus_state cactus_state = cacti_state[i];
     obj_set_attr(&obj_buffer[i + 1], ATTR0_SQUARE, ATTR1_SIZE_32,
-                 ATTR2_PALBANK(0) | cactus_state.tile_index);
+                 ATTR2_PALBANK(0) | cacti_state[i].tile_index);
   }
 
   int frame = 0;
@@ -45,18 +45,24 @@ int main() {
     key_poll();
 
     // update dino state struct, and dino buffer
-    update_dino_state(&state, frame);
-    dino->attr2 = ATTR2_BUILD(state.tile_index, state.palette_bank_index, 0);
-    obj_set_pos(dino, state.x, state.y);
+    update_dino_state(&dino_state, frame);
+    dino->attr2 =
+        ATTR2_BUILD(dino_state.tile_index, dino_state.palette_bank_index, 0);
+    obj_set_pos(dino, dino_state.x, dino_state.y);
 
     // update cacti state structs and buffer
     for (int i = 0; i < CACTI_AMT; i++) {
       cacti_state[i].x -= scroll_velocity;
       obj_set_pos(&obj_buffer[i + 1], cacti_state[i].x, cacti_state[i].y);
+
+      // check if dino hit me
+      if (dino_state.x == cacti_state[i].x) {
+        return 0;
+      }
     }
 
     // update OAM with new values that were calculated in this frame
-    oam_copy(oam_mem, obj_buffer, 3);
+    oam_copy(oam_mem, obj_buffer, CACTI_AMT + 1);
 
     // scroll horizontal window
     scroll_offset += scroll_velocity;
