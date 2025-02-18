@@ -10,7 +10,7 @@ struct cactus_state *init_cacti_state() {
   for (int i = 0; i < CACTI_AMT; i++) {
     cacti_state[i] = (struct cactus_state){
         .tile_index = SPRITE_TILE_AMT * (CACTI_START_SPRITE_INDEX + i),
-        .x = whisky1(i) & 0x01FF,
+        .x = whisky1(i) & 0x01FF, // x coordinates are only 9 bits
         .y = SPRITE_FLOOR_PIXELS_Y,
     };
   }
