@@ -4,14 +4,16 @@
 #include <tonc.h>
 
 // the first cactus is 4th in the sprite sheet
-#define CACTI_START_SPRITE_INDEX 3
+#define CACTI__START_SPRITE_INDEX 3
 // there are two cacti in total
-#define CACTI_AMT 2
+#define CACTI__AMT 2
 
 struct cactus_state {
   u32 tile_index;
   int x;
   int y;
+  const int start_pixel;
+  const int end_pixel;
 };
 
 struct cactus_state *init_cacti_state();

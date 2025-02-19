@@ -32,7 +32,7 @@ int main() {
 
   // init cacti
   struct cactus_state *cacti_state = init_cacti_state();
-  for (int i = 0; i < CACTI_AMT; i++) {
+  for (int i = 0; i < CACTI__AMT; i++) {
     obj_set_attr(&obj_buffer[i + 1], ATTR0_SQUARE, ATTR1_SIZE_32,
                  ATTR2_PALBANK(0) | cacti_state[i].tile_index);
   }
@@ -51,18 +51,22 @@ int main() {
     obj_set_pos(dino, dino_state.x, dino_state.y);
 
     // update cacti state structs and buffer
-    for (int i = 0; i < CACTI_AMT; i++) {
+    for (int i = 0; i < CACTI__AMT; i++) {
       cacti_state[i].x -= scroll_velocity;
       obj_set_pos(&obj_buffer[i + 1], cacti_state[i].x, cacti_state[i].y);
 
       // check if dino hit me
-      if (dino_state.x == cacti_state[i].x) {
+      int cacti_start = cacti_state[i].x + cacti_state[i].start_pixel;
+      int cacti_end = cacti_state[i].x + cacti_state[i].end_pixel;
+      int dino_start = dino_state.x + dino_state.start_pixel;
+      int dino_end = dino_state.x + dino_state.end_pixel;
+      if ((cacti_start <= dino_end) && (cacti_end >= dino_start)) {
         return 0;
       }
     }
 
     // update OAM with new values that were calculated in this frame
-    oam_copy(oam_mem, obj_buffer, CACTI_AMT + 1);
+    oam_copy(oam_mem, obj_buffer, CACTI__AMT + 1);
 
     // scroll horizontal window
     scroll_offset += scroll_velocity;

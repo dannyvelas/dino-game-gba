@@ -12,6 +12,8 @@ struct dino_state {
   int x;
   int y;
   int direction;
+  const int start_pixel;
+  const int end_pixel;
   enum dino_action action;
   const int jump_speed;
   const int jump_height;
