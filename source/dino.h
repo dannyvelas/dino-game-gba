@@ -3,7 +3,7 @@
 
 #include <tonc.h>
 
-enum dino_action { JUMPING, LEFT_STEP, RIGHT_STEP };
+enum dino_action { JUMPING, LEFT_STEP, RIGHT_STEP, GAMEOVER };
 
 struct dino_state {
   u32 tile_index;
@@ -26,7 +26,7 @@ struct dino_state {
 
 struct dino_state init_dino_state();
 
-void update_dino_state(struct dino_state *state, int frame);
+void update_dino_state(struct dino_state *state, int alive, int frame);
 
 void jump(struct dino_state *state);
 

@@ -31,9 +31,15 @@ struct dino_state init_dino_state() {
   return state;
 }
 
-void update_dino_state(struct dino_state *state, int frame) {
+void update_dino_state(struct dino_state *state, int alive, int frame) {
+  if (!alive) {
+    state->action = GAMEOVER;
+    state->tile_index = GAMEOVER * SPRITE_TILE_AMT;
+    return;
+  }
+
+  // if our y coordinate is at start and A is hit, start a jump
   if (state->y == state->start_y && key_hit(KEY_A)) {
-    // if our y coordinate is at start and A is hit, start a jump
     state->action = JUMPING;
     return;
   }

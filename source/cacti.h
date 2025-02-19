@@ -4,7 +4,7 @@
 #include <tonc.h>
 
 // the first cactus is 4th in the sprite sheet
-#define CACTI__START_SPRITE_INDEX 3
+#define CACTI__START_SPRITE_INDEX 4
 // there are two cacti in total
 #define CACTI__AMT 2
 

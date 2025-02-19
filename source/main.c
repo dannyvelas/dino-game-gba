@@ -40,12 +40,18 @@ int main() {
   int frame = 0;
   int scroll_velocity = 2;
   int scroll_offset = 0;
+  int alive = 1;
   while (1) {
     VBlankIntrWait();
     key_poll();
 
     // update dino state struct, and dino buffer
-    update_dino_state(&dino_state, frame);
+    update_dino_state(&dino_state, alive, frame);
+
+    if (!alive) {
+      goto gameover;
+    }
+
     dino->attr2 =
         ATTR2_BUILD(dino_state.tile_index, dino_state.palette_bank_index, 0);
     obj_set_pos(dino, dino_state.x, dino_state.y);
@@ -66,7 +72,7 @@ int main() {
 
       if ((x_cacti_start <= x_dino_end) && (x_cacti_end >= x_dino_start) &&
           (y_dino_end >= y_cacti_start)) {
-        return 0;
+        alive = 0;
       }
     }
 
@@ -78,6 +84,10 @@ int main() {
     REG_BG0HOFS = scroll_offset;
     frame += 1;
   }
+
+gameover:
+  while (1)
+    ;
 
   return 0;
 }
