@@ -12,8 +12,12 @@ struct cactus_state {
   u32 tile_index;
   int x;
   int y;
-  const int start_pixel;
-  const int end_pixel;
+
+  // these fields delineate where exactly our cactus resides inside of the
+  // 32x32 sprite
+  const int x_start;
+  const int x_end;
+  const int y_start;
 };
 
 struct cactus_state *init_cacti_state();

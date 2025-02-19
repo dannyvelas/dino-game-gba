@@ -13,8 +13,16 @@ int generate_random_coord(int seed) { return whisky1(seed + 1) & 0x01FF; }
 struct cactus_state *init_cacti_state() {
   // initialize cacti with sprite metadata
   static struct cactus_state cacti_state[CACTI__AMT] = {
-      {.start_pixel = 10, .end_pixel = 21},
-      {.start_pixel = 2, .end_pixel = 29},
+      {
+          .x_start = 10,
+          .x_end = 21,
+          .y_start = 2,
+      },
+      {
+          .x_start = 2,
+          .x_end = 29,
+          .y_start = 11,
+      },
   };
 
   // set remaining values

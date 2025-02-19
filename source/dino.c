@@ -7,8 +7,10 @@ struct dino_state init_dino_state() {
   int jump_height = jump_speed * 20;
 
   // some sprite metadata
-  int start_pixel = 6; // 6 pixels of padding on left in this 32x32 sprite
-  int end_pixel = 24;  // 7 pixels of padding on right
+  int x_start = 6; // 6 pixels of padding on left in this 32x32 sprite
+  int x_end = 24;  // 7 pixels of padding on right
+  int y_start = 5; // 5 pixels of padding on top
+  int y_end = 26;  // 5 pixels of padding on bottom
 
   struct dino_state state = {
       .tile_index = 0,
@@ -17,8 +19,10 @@ struct dino_state init_dino_state() {
       .x = 0,
       .y = SPRITE_FLOOR_PIXELS_Y,
       .direction = -1,
-      .start_pixel = start_pixel,
-      .end_pixel = end_pixel,
+      .x_start = x_start,
+      .x_end = x_end,
+      .y_start = y_start,
+      .y_end = y_end,
       .action = LEFT_STEP,
       .jump_speed = jump_speed,
       .jump_height = jump_height,

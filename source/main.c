@@ -56,11 +56,16 @@ int main() {
       obj_set_pos(&obj_buffer[i + 1], cacti_state[i].x, cacti_state[i].y);
 
       // check if dino hit me
-      int cacti_start = cacti_state[i].x + cacti_state[i].start_pixel;
-      int cacti_end = cacti_state[i].x + cacti_state[i].end_pixel;
-      int dino_start = dino_state.x + dino_state.start_pixel;
-      int dino_end = dino_state.x + dino_state.end_pixel;
-      if ((cacti_start <= dino_end) && (cacti_end >= dino_start)) {
+      int x_cacti_start = cacti_state[i].x + cacti_state[i].x_start;
+      int x_cacti_end = cacti_state[i].x + cacti_state[i].x_end;
+      int x_dino_start = dino_state.x + dino_state.x_start;
+      int x_dino_end = dino_state.x + dino_state.x_end;
+
+      int y_cacti_start = cacti_state[i].y + cacti_state[i].y_start;
+      int y_dino_end = dino_state.y + dino_state.y_end;
+
+      if ((x_cacti_start <= x_dino_end) && (x_cacti_end >= x_dino_start) &&
+          (y_dino_end >= y_cacti_start)) {
         return 0;
       }
     }

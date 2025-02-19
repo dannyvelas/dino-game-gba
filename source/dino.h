@@ -12,11 +12,16 @@ struct dino_state {
   int x;
   int y;
   int direction;
-  const int start_pixel;
-  const int end_pixel;
   enum dino_action action;
   const int jump_speed;
   const int jump_height;
+
+  // these fields delineate where exactly our dinosaur resides inside of the
+  // 32x32 sprite
+  const int x_start;
+  const int x_end;
+  const int y_start;
+  const int y_end;
 };
 
 struct dino_state init_dino_state();
