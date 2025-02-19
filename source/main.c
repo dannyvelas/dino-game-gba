@@ -52,7 +52,7 @@ int main() {
 
     // update cacti state structs and buffer
     for (int i = 0; i < CACTI__AMT; i++) {
-      cacti_state[i].x -= scroll_velocity;
+      cacti_state[i].x = (cacti_state[i].x - scroll_velocity) & 0x01FF;
       obj_set_pos(&obj_buffer[i + 1], cacti_state[i].x, cacti_state[i].y);
 
       // check if dino hit me
