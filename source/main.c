@@ -13,17 +13,15 @@ int main() {
   // this is just needed for VBlankIntrWait
   irq_add(II_VBLANK, NULL);
 
-  // initialize our object buffer that will be used for the rest of this program
-  struct buffer_state buffer_state = init_buffer();
-
   // load background and sprite assets
   load_world();
   // also initialize the background on the screen
   init_world();
 
+  // initialize our object buffer that will be used for the rest of this program
+  struct buffer_state buffer_state = init_buffer();
   // initialize dino state with a pointer to an object buffer
   struct dino_state dino_state = init_dino_state(&buffer_state);
-
   // init cacti
   struct cactus_state *cacti_state = init_cacti_state(&buffer_state);
 
