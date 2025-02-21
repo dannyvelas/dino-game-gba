@@ -6,6 +6,7 @@
 enum dino_action { JUMPING, LEFT_STEP, RIGHT_STEP, GAMEOVER };
 
 struct dino_state {
+  int alive;
   u32 tile_index;
   u32 palette_bank_index;
   int start_y;
@@ -26,7 +27,9 @@ struct dino_state {
 
 struct dino_state init_dino_state();
 
-void update_dino_state(struct dino_state *state, int alive, int frame);
+void update_dino_state(struct dino_state *state, OBJ_ATTR *dino_obj, int frame);
+
+void gameover_dino(struct dino_state *state);
 
 void jump(struct dino_state *state);
 

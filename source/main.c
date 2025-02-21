@@ -40,54 +40,51 @@ int main() {
   int frame = 0;
   int scroll_velocity = 2;
   int scroll_offset = 0;
-  int alive = 1;
   while (1) {
     VBlankIntrWait();
     key_poll();
 
     // update dino state struct, and dino buffer
-    update_dino_state(&dino_state, alive, frame);
+    update_dino_state(&dino_state, dino, frame);
 
-    if (!alive) {
-      goto gameover;
-    }
+    if (dino_state.alive) {
+      // update cacti state structs and buffer
+      for (int i = 0; i < CACTI__AMT; i++) {
+        cacti_state[i].x = (cacti_state[i].x - scroll_velocity) & 0x01FF;
+        obj_set_pos(&obj_buffer[i + 1], cacti_state[i].x, cacti_state[i].y);
 
-    dino->attr2 =
-        ATTR2_BUILD(dino_state.tile_index, dino_state.palette_bank_index, 0);
-    obj_set_pos(dino, dino_state.x, dino_state.y);
+        // check if dino hit me
+        int x_cacti_start = cacti_state[i].x + cacti_state[i].x_start;
+        int x_cacti_end = cacti_state[i].x + cacti_state[i].x_end;
+        int x_dino_start = dino_state.x + dino_state.x_start;
+        int x_dino_end = dino_state.x + dino_state.x_end;
 
-    // update cacti state structs and buffer
-    for (int i = 0; i < CACTI__AMT; i++) {
-      cacti_state[i].x = (cacti_state[i].x - scroll_velocity) & 0x01FF;
-      obj_set_pos(&obj_buffer[i + 1], cacti_state[i].x, cacti_state[i].y);
+        int y_cacti_start = cacti_state[i].y + cacti_state[i].y_start;
+        int y_dino_end = dino_state.y + dino_state.y_end;
 
-      // check if dino hit me
-      int x_cacti_start = cacti_state[i].x + cacti_state[i].x_start;
-      int x_cacti_end = cacti_state[i].x + cacti_state[i].x_end;
-      int x_dino_start = dino_state.x + dino_state.x_start;
-      int x_dino_end = dino_state.x + dino_state.x_end;
-
-      int y_cacti_start = cacti_state[i].y + cacti_state[i].y_start;
-      int y_dino_end = dino_state.y + dino_state.y_end;
-
-      if ((x_cacti_start <= x_dino_end) && (x_cacti_end >= x_dino_start) &&
-          (y_dino_end >= y_cacti_start)) {
-        alive = 0;
+        if ((x_cacti_start <= x_dino_end) && (x_cacti_end >= x_dino_start) &&
+            (y_dino_end >= y_cacti_start)) {
+          dino_state.alive = 0;
+        }
       }
     }
 
     // update OAM with new values that were calculated in this frame
     oam_copy(oam_mem, obj_buffer, CACTI__AMT + 1);
 
-    // scroll horizontal window
-    scroll_offset += scroll_velocity;
-    REG_BG0HOFS = scroll_offset;
-    frame += 1;
+    if (dino_state.alive) {
+      // scroll horizontal window
+      scroll_offset += scroll_velocity;
+      REG_BG0HOFS = scroll_offset;
+      frame += 1;
+    }
   }
 
-gameover:
-  while (1)
-    ;
+  while (1) {
+    VBlankIntrWait();
+    key_poll();
+    oam_copy(oam_mem, obj_buffer, CACTI__AMT + 1);
+  }
 
   return 0;
 }

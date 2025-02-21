@@ -13,6 +13,7 @@ struct dino_state init_dino_state() {
   int y_end = 26;  // 5 pixels of padding on bottom
 
   struct dino_state state = {
+      .alive = 1,
       .tile_index = 0,
       .palette_bank_index = 0,
       .start_y = SPRITE_FLOOR_PIXELS_Y,
@@ -31,20 +32,12 @@ struct dino_state init_dino_state() {
   return state;
 }
 
-void update_dino_state(struct dino_state *state, int alive, int frame) {
-  if (!alive) {
+void update_dino_state(struct dino_state *state, OBJ_ATTR *dino, int frame) {
+  if (!state->alive) {
     state->action = GAMEOVER;
-    state->tile_index = GAMEOVER * SPRITE_TILE_AMT;
-    return;
-  }
-
-  // if our y coordinate is at start and A is hit, start a jump
-  if (state->y == state->start_y && key_hit(KEY_A)) {
+  } else if (state->y == state->start_y && key_hit(KEY_A)) {
     state->action = JUMPING;
-    return;
-  }
-
-  if (state->action == JUMPING) {
+  } else if (state->action == JUMPING) {
     jump(state);
   } else if (frame % 6 == 0 && state->action == LEFT_STEP) {
     state->action = RIGHT_STEP;
@@ -53,6 +46,10 @@ void update_dino_state(struct dino_state *state, int alive, int frame) {
   }
 
   state->tile_index = state->action * SPRITE_TILE_AMT;
+
+  // update object buffer
+  dino->attr2 = ATTR2_BUILD(state->tile_index, state->palette_bank_index, 0);
+  obj_set_pos(dino, state->x, state->y);
 }
 
 void jump(struct dino_state *state) {
