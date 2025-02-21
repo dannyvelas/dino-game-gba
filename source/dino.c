@@ -1,7 +1,8 @@
 #include "dino.h"
+#include "obj_buffer.h"
 #include "util.h"
 
-struct dino_state init_dino_state(OBJ_ATTR *dino_obj) {
+struct dino_state init_dino_state(struct buffer_state *buffer_state) {
   // some constants for calculating jumps
   int jump_speed = 4; // roughly pixels per frame
   int jump_height = jump_speed * 20;
@@ -11,6 +12,8 @@ struct dino_state init_dino_state(OBJ_ATTR *dino_obj) {
   int x_end = 24;  // 7 pixels of padding on right
   int y_start = 5; // 5 pixels of padding on top
   int y_end = 26;  // 5 pixels of padding on bottom
+
+  OBJ_ATTR *dino_obj = alloc_obj(buffer_state);
 
   struct dino_state state = {
       .dino_obj = dino_obj,

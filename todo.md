@@ -6,9 +6,10 @@
 - [x] stop using magic numbers for cactus state
 - [x] get rid of unused variables in world.c
 - [x] figure out where to put `cactus_state` struct
-- [ ] add collision detection if dino crashes into cactus
+- [x] add collision detection if dino crashes into cactus
+- [x] make cacti spawn in random places
+- [ ] maybe make cacti update object buffer
 - [ ] figure out if there's a way to automatically determine the `x_start`/`x_end`/`y_start`/`y_end` of structs
 - [ ] maybe add gravity to dinosaur
 - [ ] maybe add a way for hard presses to make dino jump higher and soft presses to lower
-- [ ] make cacti spawn in random places
 - [ ] add more floor tiles or make them spawn randomly so its harder to notice a pattern

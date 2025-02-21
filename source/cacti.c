@@ -10,7 +10,7 @@ int generate_random_coord(int seed) { return whisky1(seed + 1) & 0x01FF; }
 // returns an array of cacti states
 // note: this function is not reentrant because it
 // uses static memory
-struct cactus_state *init_cacti_state() {
+struct cactus_state *init_cacti_state(struct buffer_state *buffer_state) {
   // initialize cacti with sprite metadata
   static struct cactus_state cacti_state[CACTI__AMT] = {
       {
@@ -27,10 +27,16 @@ struct cactus_state *init_cacti_state() {
 
   // set remaining values
   for (int i = 0; i < CACTI__AMT; i++) {
+    // set struct values
+    cacti_state[i].cactus_obj = alloc_obj(buffer_state);
     cacti_state[i].tile_index =
         SPRITE_TILE_AMT * (CACTI__START_SPRITE_INDEX + i);
     cacti_state[i].x = generate_random_coord(i);
     cacti_state[i].y = SPRITE_FLOOR_PIXELS_Y;
+
+    // set object values
+    obj_set_attr(cacti_state[i].cactus_obj, ATTR0_SQUARE, ATTR1_SIZE_32,
+                 ATTR2_PALBANK(0) | cacti_state[i].tile_index);
   }
   return cacti_state;
 }

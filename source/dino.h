@@ -1,6 +1,7 @@
 #ifndef DINO_H
 #define DINO_H
 
+#include "obj_buffer.h"
 #include <tonc.h>
 
 enum dino_action { JUMPING, LEFT_STEP, RIGHT_STEP, GAMEOVER };
@@ -27,11 +28,9 @@ struct dino_state {
 };
 
 // initializes dino state with a pointer to the dino object buffer
-struct dino_state init_dino_state(OBJ_ATTR *dino_obj);
+struct dino_state init_dino_state(struct buffer_state *);
 
 void update_dino_state(struct dino_state *state, int frame);
-
-void gameover_dino(struct dino_state *state);
 
 void jump(struct dino_state *state);
 
