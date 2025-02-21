@@ -79,11 +79,5 @@ int main() {
     frame += 1;
   }
 
-  while (1) {
-    VBlankIntrWait();
-    key_poll();
-    oam_copy(oam_mem, obj_buffer, CACTI__AMT + 1);
-  }
-
   return 0;
 }
