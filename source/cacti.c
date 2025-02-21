@@ -11,18 +11,32 @@ int generate_random_coord(int seed) { return whisky1(seed + 1) & 0x01FF; }
 // note: this function is not reentrant because it
 // uses static memory
 struct cactus_state *init_cacti_state(struct buffer_state *buffer_state) {
-  // initialize cacti with sprite metadata
+  // initialize cacti with hitboxes
   static struct cactus_state cacti_state[CACTI__AMT] = {
-      {
-          .x_start = 10,
-          .x_end = 21,
-          .y_start = 2,
-      },
-      {
-          .x_start = 2,
-          .x_end = 29,
-          .y_start = 11,
-      },
+      {.hitboxes = {{
+                        .left = 13,
+                        .top = 2,
+                        .right = 17,
+                        .bottom = 25,
+                    },
+                    {
+                        .left = 9,
+                        .top = 9,
+                        .right = 22,
+                        .bottom = 18,
+                    }}},
+      {.hitboxes = {{
+                        .left = 6,
+                        .top = 10,
+                        .right = 26,
+                        .bottom = 13,
+                    },
+                    {
+                        .left = 3,
+                        .top = 14,
+                        .right = 30,
+                        .bottom = 29,
+                    }}},
   };
 
   // set remaining values

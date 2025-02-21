@@ -1,6 +1,7 @@
 #ifndef CACTI_H
 #define CACTI_H
 
+#include "hitbox.h"
 #include "obj_buffer.h"
 #include <tonc.h>
 
@@ -16,11 +17,7 @@ struct cactus_state {
   int x;
   int y;
 
-  // these fields delineate where exactly our cactus resides inside of the
-  // 32x32 sprite
-  const int x_start;
-  const int x_end;
-  const int y_start;
+  struct hitbox hitboxes[2];
 };
 
 struct cactus_state *init_cacti_state(struct buffer_state *);

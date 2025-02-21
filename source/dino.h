@@ -1,6 +1,7 @@
 #ifndef DINO_H
 #define DINO_H
 
+#include "hitbox.h"
 #include "obj_buffer.h"
 #include <tonc.h>
 
@@ -19,12 +20,9 @@ struct dino_state {
   const int jump_speed;
   const int jump_height;
 
-  // these fields delineate where exactly our dinosaur resides inside of the
-  // 32x32 sprite
-  const int x_start;
-  const int x_end;
-  const int y_start;
-  const int y_end;
+  // we will have three discrete hitboxes for this sprite
+  // each value is a coordinate based on the top-left pixel of this 32x32 sprite
+  struct hitbox hitboxes[3];
 };
 
 // initializes dino state with a pointer to the dino object buffer
