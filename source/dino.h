@@ -6,6 +6,7 @@
 enum dino_action { JUMPING, LEFT_STEP, RIGHT_STEP, GAMEOVER };
 
 struct dino_state {
+  OBJ_ATTR *dino_obj;
   int alive;
   u32 tile_index;
   u32 palette_bank_index;
@@ -25,9 +26,10 @@ struct dino_state {
   const int y_end;
 };
 
-struct dino_state init_dino_state();
+// initializes dino state with a pointer to the dino object buffer
+struct dino_state init_dino_state(OBJ_ATTR *dino_obj);
 
-void update_dino_state(struct dino_state *state, OBJ_ATTR *dino_obj, int frame);
+void update_dino_state(struct dino_state *state, int frame);
 
 void gameover_dino(struct dino_state *state);
 

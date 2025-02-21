@@ -1,7 +1,7 @@
 #include "dino.h"
 #include "util.h"
 
-struct dino_state init_dino_state() {
+struct dino_state init_dino_state(OBJ_ATTR *dino_obj) {
   // some constants for calculating jumps
   int jump_speed = 4; // roughly pixels per frame
   int jump_height = jump_speed * 20;
@@ -13,6 +13,7 @@ struct dino_state init_dino_state() {
   int y_end = 26;  // 5 pixels of padding on bottom
 
   struct dino_state state = {
+      .dino_obj = dino_obj,
       .alive = 1,
       .tile_index = 0,
       .palette_bank_index = 0,
@@ -29,10 +30,14 @@ struct dino_state init_dino_state() {
       .jump_height = jump_height,
   };
 
+  // init default object values for our dino. we will copy this to OAM on VBLANK
+  obj_set_attr(dino_obj, ATTR0_SQUARE, ATTR1_SIZE_32,
+               ATTR2_PALBANK(state.palette_bank_index) | state.tile_index);
+
   return state;
 }
 
-void update_dino_state(struct dino_state *state, OBJ_ATTR *dino, int frame) {
+void update_dino_state(struct dino_state *state, int frame) {
   if (!state->alive) {
     state->action = GAMEOVER;
   } else if (state->y == state->start_y && key_hit(KEY_A)) {
@@ -48,8 +53,9 @@ void update_dino_state(struct dino_state *state, OBJ_ATTR *dino, int frame) {
   state->tile_index = state->action * SPRITE_TILE_AMT;
 
   // update object buffer
-  dino->attr2 = ATTR2_BUILD(state->tile_index, state->palette_bank_index, 0);
-  obj_set_pos(dino, state->x, state->y);
+  state->dino_obj->attr2 =
+      ATTR2_BUILD(state->tile_index, state->palette_bank_index, 0);
+  obj_set_pos(state->dino_obj, state->x, state->y);
 }
 
 void jump(struct dino_state *state) {
