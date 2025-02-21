@@ -22,13 +22,8 @@ int main() {
   // also initialize the background on the screen
   init_world();
 
-  // initialize dino sprite and state
-  OBJ_ATTR *dino = &obj_buffer[0];
-  struct dino_state dino_state = init_dino_state();
-  // init default object values for our dino. we will copy this to OAM on VBLANK
-  obj_set_attr(dino, ATTR0_SQUARE, ATTR1_SIZE_32,
-               ATTR2_PALBANK(dino_state.palette_bank_index) |
-                   dino_state.tile_index);
+  // initialize dino state with a pointer to an object buffer
+  struct dino_state dino_state = init_dino_state(&obj_buffer[0]);
 
   // init cacti
   struct cactus_state *cacti_state = init_cacti_state();
@@ -48,7 +43,7 @@ int main() {
     oam_copy(oam_mem, obj_buffer, CACTI__AMT + 1);
 
     // update dino state struct, and dino buffer
-    update_dino_state(&dino_state, dino, frame);
+    update_dino_state(&dino_state, frame);
     if (!dino_state.alive) {
       continue;
     }
