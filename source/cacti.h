@@ -24,4 +24,6 @@ struct cactus_state {
 
 struct cactus_state *init_cacti_state(struct buffer_state *);
 
+void update_cacti_state(struct cactus_state *cacti_state, int scroll_velocity);
+
 #endif // CACTI_H

@@ -54,3 +54,11 @@ struct cactus_state *init_cacti_state(struct buffer_state *buffer_state) {
   }
   return cacti_state;
 }
+
+void update_cacti_state(struct cactus_state *cacti_state, int scroll_velocity) {
+  // update cacti state structs and buffer
+  for (int i = 0; i < CACTI__AMT; i++) {
+    cacti_state[i].x = (cacti_state[i].x - scroll_velocity) & 0x01FF;
+    obj_set_pos(cacti_state[i].cactus_obj, cacti_state[i].x, cacti_state[i].y);
+  }
+}

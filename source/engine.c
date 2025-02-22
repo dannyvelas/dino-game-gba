@@ -3,8 +3,9 @@
 int cactus_left_lt_dino_right(int cactus_left, int cactus_right,
                               int dino_right) {
   // if cactus left overflowed (outside frame), return true at all times
-  if (cactus_left > cactus_right)
+  if (cactus_left > cactus_right) {
     return true;
+  }
   // otherwise, just return normal operation
   return cactus_left < dino_right;
 }

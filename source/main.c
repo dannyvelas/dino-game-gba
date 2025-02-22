@@ -43,12 +43,8 @@ int main() {
     // update dino state struct, and dino buffer
     update_dino_state(&dino_state, frame);
 
-    // update cacti state structs and buffer
-    for (int i = 0; i < CACTI__AMT; i++) {
-      cacti_state[i].x = (cacti_state[i].x - scroll_velocity) & 0x01FF;
-      obj_set_pos(cacti_state[i].cactus_obj, cacti_state[i].x,
-                  cacti_state[i].y);
-    }
+    // update cacti state struct, and cacti buffers
+    update_cacti_state(cacti_state, scroll_velocity);
 
     // if collision happened, update dino state to be gameover
     if (detected_collision(dino_state, cacti_state)) {
