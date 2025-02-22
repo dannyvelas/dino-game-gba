@@ -5,6 +5,8 @@
 #include "obj_buffer.h"
 #include <tonc.h>
 
+#define DINO__HITBOX_AMT 3
+
 enum dino_action { JUMPING, LEFT_STEP, RIGHT_STEP, GAMEOVER };
 
 struct dino_state {
@@ -22,7 +24,7 @@ struct dino_state {
 
   // we will have three discrete hitboxes for this sprite
   // each value is a coordinate based on the top-left pixel of this 32x32 sprite
-  struct hitbox hitboxes[3];
+  struct hitbox hitboxes[DINO__HITBOX_AMT];
 };
 
 // initializes dino state with a pointer to the dino object buffer

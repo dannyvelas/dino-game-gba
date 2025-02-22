@@ -9,6 +9,8 @@
 #define CACTI__START_SPRITE_INDEX 4
 // there are two cacti in total
 #define CACTI__AMT 2
+// two hitboxes in each cactus
+#define CACTI__HITBOX_AMT 2
 
 struct cactus_state {
   OBJ_ATTR *cactus_obj;
@@ -17,7 +19,7 @@ struct cactus_state {
   int x;
   int y;
 
-  struct hitbox hitboxes[2];
+  struct hitbox hitboxes[CACTI__HITBOX_AMT];
 };
 
 struct cactus_state *init_cacti_state(struct buffer_state *);

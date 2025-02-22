@@ -4,6 +4,15 @@
 #include "world.h"
 #include <tonc.h>
 
+int cactus_left_lt_dino_right(int cactus_left, int cactus_right,
+                              int dino_right) {
+  // if cactus left overflowed (outside frame), return true at all times
+  if (cactus_left > cactus_right)
+    return true;
+  // otherwise, just return normal operation
+  return cactus_left < dino_right;
+}
+
 int main() {
   // set I/O register to use mode0, sprites, 1d sprites and tiled background 0
   REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0;
@@ -48,17 +57,24 @@ int main() {
                   cacti_state[i].y);
 
       // check if dino hit me
-      int x_cacti_start = cacti_state[i].x + cacti_state[i].x_start;
-      int x_cacti_end = cacti_state[i].x + cacti_state[i].x_end;
-      int x_dino_start = dino_state.x + dino_state.x_start;
-      int x_dino_end = dino_state.x + dino_state.x_end;
+      for (int j = 0; j < DINO__HITBOX_AMT; j++) {
+        int dino_left = dino_state.hitboxes[j].left;
+        int dino_right = dino_state.hitboxes[j].right;
+        int dino_bottom = dino_state.y + dino_state.hitboxes[j].bottom;
 
-      int y_cacti_start = cacti_state[i].y + cacti_state[i].y_start;
-      int y_dino_end = dino_state.y + dino_state.y_end;
+        for (int k = 0; k < CACTI__HITBOX_AMT; k++) {
+          int cactus_left =
+              (cacti_state[i].x + cacti_state[i].hitboxes[k].left) & 0x01FF;
+          int cactus_top = cacti_state[i].y + cacti_state[i].hitboxes[k].top;
+          int cactus_right =
+              (cacti_state[i].x + cacti_state[i].hitboxes[k].right) & 0x01FF;
 
-      if ((x_cacti_start <= x_dino_end) && (x_cacti_end >= x_dino_start) &&
-          (y_dino_end >= y_cacti_start)) {
-        dino_state.alive = 0;
+          if ((cactus_left_lt_dino_right(cactus_left, cactus_right,
+                                         dino_right)) &&
+              (cactus_right >= dino_left) && (dino_bottom >= cactus_top)) {
+            dino_state.alive = 0;
+          }
+        }
       }
     }
 
