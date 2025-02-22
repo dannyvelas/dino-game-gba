@@ -9,8 +9,8 @@ int cactus_left_lt_dino_right(int cactus_left, int cactus_right,
   return cactus_left < dino_right;
 }
 
-int detect_collision(struct dino_state dino_state,
-                     struct cactus_state *cacti_state) {
+int detected_collision(struct dino_state dino_state,
+                       struct cactus_state *cacti_state) {
   for (int i = 0; i < DINO__HITBOX_AMT; i++) {
     int dino_left = dino_state.hitboxes[i].left;
     int dino_right = dino_state.hitboxes[i].right;

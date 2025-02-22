@@ -50,8 +50,7 @@ int main() {
     }
 
     // detect if collision happened after everything has been moved
-    int collision_happened = detect_collision(dino_state, cacti_state);
-    if (collision_happened) {
+    if (detected_collision(dino_state, cacti_state)) {
       dino_state.alive = 0;
     }
 
