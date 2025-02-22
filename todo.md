@@ -9,6 +9,9 @@
 - [x] add collision detection if dino crashes into cactus
 - [x] make cacti spawn in random places
 - [x] fix collision detection to be less-square. right now if the bottom corner of the dino sprite which is just empty space hits the top corner of a cactus sprite, which is just empty space, that will count as a collision
+- [ ] figure out how to remove `& 0x01FF` suffix from a buncha places, feels hacky
+- [ ] move `cactus_left_lt_dino_right` function
+- [ ] dont do collision detection for cacti that are too far
 - [ ] maybe make cacti update object buffer
 - [ ] figure out if there's a way to automatically determine the `x_start`/`x_end`/`y_start`/`y_end` of structs
 - [ ] maybe add gravity to dinosaur
