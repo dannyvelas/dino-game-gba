@@ -35,12 +35,13 @@ int main() {
 
     // update OAM with new values that were calculated in last frame
     oam_copy(oam_mem, buffer_state.obj_buffer, buffer_state.len);
+    // if out dinosaur crashed into something last iteration, lets break
+    if (!dino_state.alive) {
+      break;
+    }
 
     // update dino state struct, and dino buffer
     update_dino_state(&dino_state, frame);
-    if (!dino_state.alive) {
-      continue;
-    }
 
     // update cacti state structs and buffer
     for (int i = 0; i < CACTI__AMT; i++) {
@@ -49,15 +50,21 @@ int main() {
                   cacti_state[i].y);
     }
 
-    // detect if collision happened after everything has been moved
+    // if collision happened, update dino state to be gameover
     if (detected_collision(dino_state, cacti_state)) {
       dino_state.alive = 0;
+      update_dino_state(&dino_state, frame);
     }
 
     // scroll horizontal window
     scroll_offset += scroll_velocity;
     REG_BG0HOFS = scroll_offset;
     frame += 1;
+  }
+
+  // game over in low power mode
+  while (1) {
+    Halt();
   }
 
   return 0;
