@@ -7,7 +7,7 @@
 
 int main() {
   // set I/O reg to use mode0, sprites, 1d sprites and tiled backgrounds 0 & 1
-  REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0;
+  REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0 | DCNT_BG1;
   // put tonc interrupt switchboard at address that is used for interrupts
   irq_init(NULL);
   // make hardware fire and receive VBlank interrupts. No function will run;

@@ -26,13 +26,13 @@ void configureBG0() {
 
 // initialize tonc text engine (tte) into bg 1
 void setupTTEBG1() {
-  tte_init_se(0,                      // BG 0
-              BG_CBB(0) | BG_SBB(31), // BG control (for REG_BGxCNT)
-              0,                      // Tile offset (special cattr)
-              CLR_YELLOW,             // Ink color
-              0,                      // BitUnpack offset (on-pixel = 15)
-              NULL,                   // Default font (sys8)
-              NULL);                  // Default renderer (se_drawg_s)
+  tte_init_se(1,                                 // BG 0
+              BG_CBB(BG1_CBB) | BG_SBB(BG1_SBB), // BG control (for REG_BGxCNT)
+              0,                                 // Tile offset (special cattr)
+              CLR_YELLOW,                        // Ink color
+              0,                                 // BitUnpack offset
+              NULL,                              // Default font (sys8)
+              NULL);                             // Default renderer
   tte_write("\n Hello world! in yellow\n");
 }
 
@@ -50,7 +50,7 @@ void loadSpriteData() {
 }
 
 void load_world() {
-  // configureBG0();
+  configureBG0();
 
   setupTTEBG1();
 
