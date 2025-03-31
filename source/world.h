@@ -4,6 +4,5 @@
 #include <tonc.h>
 
 void load_world();
-void init_world();
 
 #endif // WORLD_H
