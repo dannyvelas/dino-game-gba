@@ -60,7 +60,7 @@ int main() {
 
   // game over in low power mode
   while (1) {
-    Halt();
+    // Halt();
   }
 
   return 0;

@@ -28,9 +28,6 @@ void setupTTEBG0() {
 }
 
 void loadBG1() {
-  REG_BG0CNT = BG_CBB(BG0_CBB) | BG_SBB(BG0_SBB) | BG_4BPP | BG_REG_32x32;
-  // tile_mem[BG1_CBB
-
   // set the character base block and screenbase block of background 0.
   // each background tile is 4bpp. background is of size 32x32 tiles.
   REG_BG1CNT = BG_CBB(BG1_CBB) | BG_SBB(BG1_SBB) | BG_4BPP | BG_REG_32x32;
@@ -64,9 +61,9 @@ void loadSpriteData() {
 }
 
 void load_world() {
-  // setupTTEBG0();
+  setupTTEBG0();
 
   loadBG1();
 
-  // loadSpriteData();
+  loadSpriteData();
 }
