@@ -11,7 +11,8 @@
 - [x] fix collision detection to be less-square. right now if the bottom corner of the dino sprite which is just empty space hits the top corner of a cactus sprite, which is just empty space, that will count as a collision
 - [x] move `cactus_left_lt_dino_right` function
 - [x] maybe make cacti update object buffer
-- [ ] run on an actual gameboy
+- [x] run on an actual gameboy
+- [ ] add game over screen
 - [ ] dont do collision detection for cacti that are too far
 - [ ] figure out how to remove `& 0x01FF` suffix from a buncha places, feels hacky
 - [ ] maybe add gravity to dinosaur
