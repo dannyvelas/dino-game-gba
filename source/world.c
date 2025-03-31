@@ -49,7 +49,7 @@ void loadBG1() {
     // set floor tiles
     if (i >= scr_entry_start && i < BG_DIM + scr_entry_start) {
       u16 tile_index = (i % (amt_bg_tiles - 1)) + 1;
-      se_mem[BG1_SBB][i] += tile_index;
+      se_mem[BG1_SBB][i] |= tile_index;
     }
   }
 }
