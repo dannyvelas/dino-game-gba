@@ -38,14 +38,12 @@ void loadBG1() {
   // load background data into memory
   memcpy32(&tile_mem[BG1_CBB][0], backgroundTiles,
            backgroundTilesLen / sizeof(u32));
-  memcpy16(pal_bg_bank[1], backgroundPal, backgroundPalLen / sizeof(u16));
+  memcpy16(pal_bg_bank, backgroundPal, backgroundPalLen / sizeof(u16));
 
   // initialize tiles
   int scr_entry_start = FLOOR_SCR_ENTRY_Y * BG_DIM;
   int amt_bg_tiles = backgroundTilesLen / sizeof(u32) / TILE_32BIT_AMT;
   for (int i = 0; i < BG_DIM * BG_DIM; i++) {
-    // use tile 0, palette bank 1
-    se_mem[BG1_SBB][i] = 0x1000;
     // set floor tiles
     if (i >= scr_entry_start && i < BG_DIM + scr_entry_start) {
       u16 tile_index = (i % (amt_bg_tiles - 1)) + 1;
