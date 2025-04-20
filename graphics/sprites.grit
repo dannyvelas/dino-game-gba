@@ -1,1 +1,6 @@
--gB4 -Mh4 -Mw4
+# bit depth: 4
+-gB4
+# 4 tiles high
+-Mh4
+# 4 tiles wide
+-Mw4

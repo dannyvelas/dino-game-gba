@@ -1,7 +1,6 @@
 #include "world.h"
 #include "background.h"
 #include "sprites.h"
-#include "util.h"
 
 // we'll use CBB #0 for BG 0 (text, the front-most bg)
 // and CBB #1 for BG 1 (the floor, the back-most bg)
@@ -20,7 +19,7 @@ void setupTTEBG0() {
               BG_CBB(BG0_CBB) | BG_SBB(BG0_SBB) | BG_4BPP |
                   BG_REG_32x32, // BG control (for REG_BGxCNT)
               0,                // Tile offset (special cattr)
-              0x294a,           // Ink color
+              0x294A,           // Ink color
               0,                // BitUnpack offset
               NULL,             // Default font (sys8)
               NULL);            // Default renderer
@@ -40,16 +39,8 @@ void loadBG1() {
            backgroundTilesLen / sizeof(u32));
   memcpy16(pal_bg_bank, backgroundPal, backgroundPalLen / sizeof(u16));
 
-  // initialize tiles
-  int scr_entry_start = FLOOR_SCR_ENTRY_Y * BG_DIM;
-  int amt_bg_tiles = backgroundTilesLen / sizeof(u32) / TILE_32BIT_AMT;
-  for (int i = 0; i < BG_DIM * BG_DIM; i++) {
-    // set floor tiles
-    if (i >= scr_entry_start && i < BG_DIM + scr_entry_start) {
-      u16 tile_index = (i % (amt_bg_tiles - 1)) + 1;
-      se_mem[BG1_SBB][i] |= tile_index;
-    }
-  }
+  // initialize screen-map entries
+  memcpy32(&se_mem[BG1_SBB][0], backgroundMap, backgroundMapLen / sizeof(u32));
 }
 
 // load sprite data into memory at very first sprite charblock (4)
