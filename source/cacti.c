@@ -6,7 +6,7 @@ void reset_cacti_state(struct cactus_state *cacti_state, int seed) {
     // set struct values
     cacti_state[i].tile_index =
         SPRITE_TILE_AMT * (CACTI__START_SPRITE_INDEX + i);
-    cacti_state[i].x = (seed + i) & 0x01FF;
+    cacti_state[i].x = qran() & 0x01FF;
     cacti_state[i].y = SPRITE_FLOOR_PIXELS_Y;
 
     // set object values

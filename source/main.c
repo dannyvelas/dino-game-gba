@@ -47,9 +47,6 @@ int main() {
     VBlankIntrWait();
     key_poll();
 
-    // update OAM with new values that were calculated last frame
-    oam_copy(oam_mem, buffer_state.obj_buffer, buffer_state.len);
-
     // update dino state struct, and dino buffer
     update_dino_state(&dino_state, frame);
 
@@ -62,6 +59,9 @@ int main() {
       update_dino_state(&dino_state, frame);
       render_gameover();
     }
+
+    // update OAM with new values that were calculated this frame
+    oam_copy(oam_mem, buffer_state.obj_buffer, buffer_state.len);
 
     // scroll horizontal window
     scroll_offset += scroll_velocity;
