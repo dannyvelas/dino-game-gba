@@ -2,12 +2,14 @@
 #include "background.h"
 #include "sprites.h"
 
-static const int BG0_CBB = 0;
+static const int TTE_CBB = 0;
+static const int BG0_CBB = 1;
 
 // we're using a map of size 32x32 screen-entries, (aka 32*32*2 => 2048 bytes)
 // which is the same exact size as one screenblock
 // convention is to make the screen base block as far right in VRAM as you can
-static const int BG0_SBB = 30;
+static const int TTE_SBB = 30;
+static const int BG0_SBB = 31;
 
 void loadBG0() {
   // set the character base block and screenbase block of background 0.
@@ -32,7 +34,20 @@ void loadSpriteData() {
   memcpy16(pal_obj_mem, spritesPal, spritesPalLen / sizeof(u16));
 }
 
+void initTTE() {
+  tte_init_se(0, // Background number (BG 0)
+              BG_CBB(TTE_CBB) | BG_SBB(TTE_SBB) | BG_4BPP |
+                  BG_REG_32x32, // BG control (for REG_BGxCNT)
+              0,                // Tile offset (special cattr)
+              0x294A,           // Ink color
+              0,                // BitUnpack offset (on-pixel = 15)
+              NULL,             // Default font (sys8)
+              NULL);            // Default renderer (se_drawg_s)
+}
+
 void load_world() {
+  initTTE();
+
   loadBG0();
 
   loadSpriteData();
