@@ -36,3 +36,5 @@ int detected_collision(struct dino_state dino_state,
   }
   return false;
 }
+
+void render_gameover() {}

@@ -1,16 +1,13 @@
 #include "dino.h"
-#include "obj_buffer.h"
 #include "util.h"
 
-struct dino_state init_dino_state(struct buffer_state *buffer_state) {
+struct dino_state init_dino_state(struct obj_buffer *obj_buffer) {
   // some constants for calculating jumps
   int jump_speed = 4; // roughly pixels per frame
   int jump_height = jump_speed * 20;
 
-  OBJ_ATTR *dino_obj = alloc_obj(buffer_state);
-
   struct dino_state state = {
-      .dino_obj = dino_obj,
+      .dino_obj = allocated_obj,
       .alive = 1,
       .tile_index = 0,
       .palette_bank_index = 0,
@@ -46,7 +43,7 @@ struct dino_state init_dino_state(struct buffer_state *buffer_state) {
   };
 
   // init default object values for our dino. we will copy this to OAM on VBLANK
-  obj_set_attr(dino_obj, ATTR0_SQUARE, ATTR1_SIZE_32,
+  obj_set_attr(allocated_obj, ATTR0_SQUARE, ATTR1_SIZE_32,
                ATTR2_PALBANK(state.palette_bank_index) | state.tile_index);
 
   return state;

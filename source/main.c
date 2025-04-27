@@ -6,8 +6,8 @@
 #include <tonc.h>
 
 int main() {
-  // set I/O reg to use mode0, sprites, 1d sprites and tiled backgrounds 0 & 1
-  REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0 | DCNT_BG1;
+  // set I/O reg to use mode0, sprites, 1d sprites and tiled background 0
+  REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0;
   // put tonc interrupt switchboard at address that is used for interrupts
   irq_init(NULL);
   // make hardware fire and receive VBlank interrupts. No function will run;
@@ -17,26 +17,40 @@ int main() {
   // load background and sprite assets
   load_world();
 
+  int seed = 3948;
   // initialize our object buffer that will be used for the rest of this program
   struct buffer_state buffer_state = init_buffer();
-  // initialize dino state with a pointer to an object buffer
-  struct dino_state dino_state = init_dino_state(&buffer_state);
+  // allocate object for dino and initialize state for that dino
+  OBJ_ATTR *dino_obj = alloc_obj(&buffer_state);
+  struct dino_state dino_state = init_dino_state(dino_obj);
   // init cacti
-  struct cactus_state *cacti_state = init_cacti_state(&buffer_state);
+  struct cactus_state *cacti_state = init_cacti_state(&buffer_state, seed);
 
   int frame = 0;
   int scroll_velocity = 2;
   int scroll_offset = 0;
   while (1) {
+    // if dino crashed last iteration, wait in lower power until A hit
+    if (!dino_state.alive) {
+      key_poll();
+      if (!key_hit(KEY_A)) {
+        Halt();
+        continue;
+      }
+
+      dino_state.alive = 1;
+      dino_state.tile_index = 0;
+      dino_state.action = LEFT_STEP;
+      REG_BG0HOFS = 0;
+      frame = 0;
+      continue;
+    }
+
     VBlankIntrWait();
     key_poll();
 
-    // update OAM with new values that were calculated in last frame
+    // update OAM with new values that were calculated last frame
     oam_copy(oam_mem, buffer_state.obj_buffer, buffer_state.len);
-    // if out dinosaur crashed into something last iteration, lets break
-    if (!dino_state.alive) {
-      break;
-    }
 
     // update dino state struct, and dino buffer
     update_dino_state(&dino_state, frame);
@@ -48,17 +62,13 @@ int main() {
     if (detected_collision(dino_state, cacti_state)) {
       dino_state.alive = 0;
       update_dino_state(&dino_state, frame);
+      render_gameover();
     }
 
     // scroll horizontal window
     scroll_offset += scroll_velocity;
-    REG_BG1HOFS = scroll_offset;
+    REG_BG0HOFS = scroll_offset;
     frame += 1;
-  }
-
-  // game over in low power mode
-  while (1) {
-    Halt();
   }
 
   return 0;

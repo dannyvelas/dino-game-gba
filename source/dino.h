@@ -2,7 +2,6 @@
 #define DINO_H
 
 #include "hitbox.h"
-#include "obj_buffer.h"
 #include <tonc.h>
 
 #define DINO__HITBOX_AMT 3
@@ -28,7 +27,7 @@ struct dino_state {
 };
 
 // initializes dino state with a pointer to the dino object buffer
-struct dino_state init_dino_state(struct buffer_state *);
+struct dino_state init_dino_state(OBJ_ATTR *allocated_obj);
 
 void update_dino_state(struct dino_state *state, int frame);
 
