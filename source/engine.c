@@ -37,4 +37,4 @@ int detected_collision(struct dino_state dino_state,
   return false;
 }
 
-void render_gameover() {}
+void render_gameover() { tte_write("\nG A M E  O V E R\n"); }
