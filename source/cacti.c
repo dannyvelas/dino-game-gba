@@ -1,8 +1,7 @@
 #include "cacti.h"
 #include "util.h"
 
-struct cactus_state *reset_cacti_state(struct cactus_state *cacti_state,
-                                       int seed) {
+void reset_cacti_state(struct cactus_state *cacti_state, int seed) {
   for (int i = 0; i < CACTI__AMT; i++) {
     // set struct values
     cacti_state[i].tile_index =
@@ -14,7 +13,6 @@ struct cactus_state *reset_cacti_state(struct cactus_state *cacti_state,
     obj_set_attr(cacti_state[i].cactus_obj, ATTR0_SQUARE, ATTR1_SIZE_32,
                  ATTR2_PALBANK(0) | cacti_state[i].tile_index);
   }
-  return cacti_state;
 }
 
 // returns an array of cacti states
@@ -54,7 +52,8 @@ struct cactus_state *init_cacti_state(struct buffer_state *buffer_state,
     cacti_state[i].cactus_obj = alloc_obj(buffer_state);
   }
 
-  return reset_cacti_state(cacti_state, seed);
+  reset_cacti_state(cacti_state, seed);
+  return cacti_state;
 }
 
 void update_cacti_state(struct cactus_state *cacti_state, int scroll_velocity) {

@@ -2,6 +2,7 @@
 #define DINO_H
 
 #include "hitbox.h"
+#include "obj_buffer.h"
 #include <tonc.h>
 
 #define DINO__HITBOX_AMT 3
@@ -18,8 +19,8 @@ struct dino_state {
   int y;
   int direction;
   enum dino_action action;
-  const int jump_speed;
-  const int jump_height;
+  int jump_speed;
+  int jump_height;
 
   // we will have three discrete hitboxes for this sprite
   // each value is a coordinate based on the top-left pixel of this 32x32 sprite
@@ -27,7 +28,9 @@ struct dino_state {
 };
 
 // initializes dino state with a pointer to the dino object buffer
-struct dino_state init_dino_state(OBJ_ATTR *allocated_obj);
+struct dino_state init_dino_state(struct buffer_state *);
+
+void reset_dino_state(struct dino_state *);
 
 void update_dino_state(struct dino_state *state, int frame);
 

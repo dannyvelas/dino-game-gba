@@ -1,23 +1,29 @@
 #include "dino.h"
 #include "util.h"
 
-struct dino_state init_dino_state(struct obj_buffer *obj_buffer) {
-  // some constants for calculating jumps
-  int jump_speed = 4; // roughly pixels per frame
-  int jump_height = jump_speed * 20;
+// some constants for calculating jumps
+const int jump_speed = 4; // roughly pixels per frame
+const int jump_height = jump_speed * 20;
 
+void reset_dino_state(struct dino_state *state) {
+  state->alive = 1;
+  state->tile_index = 0;
+  state->palette_bank_index = 0;
+  state->start_y = SPRITE_FLOOR_PIXELS_Y;
+  state->x = 0;
+  state->y = SPRITE_FLOOR_PIXELS_Y;
+  state->direction = -1;
+  state->action = LEFT_STEP;
+  state->jump_speed = 4;
+  state->jump_height = jump_height;
+
+  // init default object values for our dino. we will copy this to OAM on VBLANK
+  obj_set_attr(state->dino_obj, ATTR0_SQUARE, ATTR1_SIZE_32,
+               ATTR2_PALBANK(state->palette_bank_index) | state->tile_index);
+}
+
+struct dino_state init_dino_state(struct buffer_state *obj_buffer) {
   struct dino_state state = {
-      .dino_obj = allocated_obj,
-      .alive = 1,
-      .tile_index = 0,
-      .palette_bank_index = 0,
-      .start_y = SPRITE_FLOOR_PIXELS_Y,
-      .x = 0,
-      .y = SPRITE_FLOOR_PIXELS_Y,
-      .direction = -1,
-      .action = LEFT_STEP,
-      .jump_speed = jump_speed,
-      .jump_height = jump_height,
       .hitboxes =
           {// head hitbox
            {
@@ -40,12 +46,10 @@ struct dino_state init_dino_state(struct obj_buffer *obj_buffer) {
                .top = 15,
                .bottom = 26,
            }},
+      .dino_obj = alloc_obj(obj_buffer),
   };
 
-  // init default object values for our dino. we will copy this to OAM on VBLANK
-  obj_set_attr(allocated_obj, ATTR0_SQUARE, ATTR1_SIZE_32,
-               ATTR2_PALBANK(state.palette_bank_index) | state.tile_index);
-
+  reset_dino_state(&state);
   return state;
 }
 

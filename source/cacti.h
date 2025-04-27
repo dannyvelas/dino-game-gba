@@ -22,6 +22,8 @@ struct cactus_state {
   struct hitbox hitboxes[CACTI__HITBOX_AMT];
 };
 
+void reset_cacti_state(struct cactus_state *, int seed);
+
 struct cactus_state *init_cacti_state(struct buffer_state *, int seed);
 
 void update_cacti_state(struct cactus_state *cacti_state, int scroll_velocity);

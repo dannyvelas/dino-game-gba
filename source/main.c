@@ -21,8 +21,7 @@ int main() {
   // initialize our object buffer that will be used for the rest of this program
   struct buffer_state buffer_state = init_buffer();
   // allocate object for dino and initialize state for that dino
-  OBJ_ATTR *dino_obj = alloc_obj(&buffer_state);
-  struct dino_state dino_state = init_dino_state(dino_obj);
+  struct dino_state dino_state = init_dino_state(&buffer_state);
   // init cacti
   struct cactus_state *cacti_state = init_cacti_state(&buffer_state, seed);
 
@@ -38,9 +37,8 @@ int main() {
         continue;
       }
 
-      dino_state.alive = 1;
-      dino_state.tile_index = 0;
-      dino_state.action = LEFT_STEP;
+      reset_dino_state(&dino_state);
+      reset_cacti_state(cacti_state, seed);
       REG_BG0HOFS = 0;
       frame = 0;
       continue;
