@@ -1,3 +1,9 @@
+# Chrome dino game
+
+- Blog post: https://www.dannyvelasquez.com/posts/making-a-game-boy-game/
+
+## TODOs
+
 - [x] make dino look like its running by continuously changing its sprite to point to the one with the left leg lifted and then the one with the right leg lifted
 - [x] rename sky.png to bg.png
 - [x] change dino.h/dino.c to use "tile" for the 8x8pixel squares in charblocks and "screenblock entry" for the 8x8bit pixel squares that are shown on the screen
@@ -26,6 +32,6 @@
 - [ ] make select change to dark mode
 - [ ] add spy vs spy theme song
 
-# probably wont do
+## probably wont do
 
 - [ ] figure out if there's a way to automatically determine the `x_start`/`x_end`/`y_start`/`y_end` of structs
